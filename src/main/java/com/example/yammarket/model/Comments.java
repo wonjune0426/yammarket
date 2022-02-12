@@ -32,4 +32,5 @@ public class Comments extends TimeStamped {
         this.users=users;
         this.posts=posts;
     }
+
 }

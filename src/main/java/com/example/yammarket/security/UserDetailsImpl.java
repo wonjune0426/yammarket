@@ -9,6 +9,7 @@ import java.util.Collections;
 
 public class UserDetailsImpl implements UserDetails {
 
+
     private final Users users;
 
     public UserDetailsImpl(Users users) {
@@ -17,6 +18,7 @@ public class UserDetailsImpl implements UserDetails {
 
     public Users getUsers() {
         return users;
+
     }
 
     @Override
