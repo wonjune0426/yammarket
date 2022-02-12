@@ -15,10 +15,13 @@ public class Comments {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(nullable = false, name = "user_id")
     private Users users;
 
     @ManyToOne
-    @JoinColumn(name = "post_id")
+    @JoinColumn(nullable = false, name = "post_id")
     private Posts posts;
+
+    @Column(nullable = false)
+    private String comment;
 }
