@@ -15,7 +15,7 @@ public class Comments {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "userId")
     private Users users;
 
     @ManyToOne

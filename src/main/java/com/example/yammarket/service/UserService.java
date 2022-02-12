@@ -2,6 +2,7 @@ package com.example.yammarket.service;
 import com.example.yammarket.dto.SignupRequestDto;
 import com.example.yammarket.model.Users;
 import com.example.yammarket.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -16,21 +17,16 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Service
 public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
 
-    @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
-
     public boolean registerUser(SignupRequestDto requestDto) {
 // 회원 ID 중복 확인
-        String user_id = requestDto.getUser_id();
-        Optional<Users> found = userRepository.findByUser_id(user_id);
+        String userId = requestDto.getUserId();
+        Optional<Users> found = userRepository.findByUserId(userId);
 
         if (found.isPresent()) {
             return false; //throw new IllegalArgumentException("중복된 사용자 ID 가 존재합니다.");
@@ -41,7 +37,7 @@ public class UserService {
         String password_tmp = requestDto.getPassword();
         String password = passwordEncoder.encode(password_tmp);
 
-        Users user = new Users(user_id, nickname, password);
+        Users user = new Users(userId, nickname, password);
         userRepository.save(user);
         return true;
 
@@ -59,10 +55,10 @@ public class UserService {
 
     public String loginPage (HttpServletResponse response) throws IOException {
         if (!isAuthenticated()) {
-            response.setContentType("text/html; charset=UTF-8");
-            PrintWriter out = response.getWriter();
-            out.println("<script>alert('로그인이 필요한 기능입니다');</script>");
-            out.flush();
+//            response.setContentType("text/html; charset=UTF-8");
+//            PrintWriter out = response.getWriter();
+//            out.println("<script>alert('로그인이 필요한 기능입니다');</script>");
+//            out.flush();
             return "login";
         }else{
             return "redirect:/";
@@ -72,10 +68,10 @@ public class UserService {
 
     public String login(HttpServletResponse response) throws IOException  {
         if (isAuthenticated()) {
-            response.setContentType("text/html; charset=UTF-8");
-            PrintWriter out = response.getWriter();
-            out.println("<script>alert('이미 로그인 상태입니다.'); history.go(-1);</script>");
-            out.flush();
+//            response.setContentType("text/html; charset=UTF-8");
+//            PrintWriter out = response.getWriter();
+//            out.println("<script>alert('이미 로그인 상태입니다.'); history.go(-1);</script>");
+//            out.flush();
             return "redirect:/";
         }else{
             return "login";
@@ -85,10 +81,10 @@ public class UserService {
 
     public String logoutPage (HttpServletResponse response) throws IOException {
         if (!isAuthenticated()) {
-            response.setContentType("text/html; charset=UTF-8");
-            PrintWriter out = response.getWriter();
-            out.println("<script>alert('이미 로그아웃 상태입니다.'); history.go(-1);</script>");
-            out.flush();
+//            response.setContentType("text/html; charset=UTF-8");
+//            PrintWriter out = response.getWriter();
+//            out.println("<script>alert('이미 로그아웃 상태입니다.'); history.go(-1);</script>");
+//            out.flush();
             return "login";
         }else{
             return "redirect:/user/logout";
@@ -99,7 +95,7 @@ public class UserService {
                                Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Users user = (Users)authentication.getPrincipal();
-        model.addAttribute("user_id",user.getUser_id());
+        model.addAttribute("userId",user.getUserId());
         model.addAttribute("exception",exception);
         return "denied";
     }

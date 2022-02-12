@@ -17,7 +17,7 @@ public class Users {
     private Long id;
 
     @Column(nullable = false)
-    private String user_id;
+    private String userId;
 
     @Column(nullable = false)
     private String nickname;
@@ -25,14 +25,14 @@ public class Users {
     @Column(nullable = false)
     private String password;
 
-    public Users(String user_id, String nickname, String password) {
-        this.user_id=user_id;
+    public Users(String userId, String nickname, String password) {
+        this.userId=userId;
         this.nickname=nickname;
         this.password=password;
     }
 
     public Users(SignupRequestDto requestDto) {
-        this.user_id=requestDto.getUser_id();
+        this.userId=requestDto.getUserId();
         this.nickname=requestDto.getNickname();
         this.password=requestDto.getPassword();
     }

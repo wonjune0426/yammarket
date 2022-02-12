@@ -25,7 +25,7 @@ public class Posts extends TimeStamped {
 //    private String image_url;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "userId")
     private Users users;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "posts")

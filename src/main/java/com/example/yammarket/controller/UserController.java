@@ -20,7 +20,7 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("/user/login")
+    @GetMapping("/user/loginPage")
     public String loginPage (HttpServletResponse response) throws IOException {
         String result = userService.loginPage(response);
         return result;
