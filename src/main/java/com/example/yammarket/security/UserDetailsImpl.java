@@ -9,14 +9,17 @@ import java.util.Collections;
 
 public class UserDetailsImpl implements UserDetails {
 
-    private final Users user;
 
-    public UserDetailsImpl(Users user) {
-        this.user = user;
+
+    private final Users users;
+
+    public UserDetailsImpl(Users users) {
+        this.users = users;
     }
 
-    public Users getUser() {
-        return user;
+    public Users getUsers() {
+        return users;
+
     }
     public String getUserId() {
         return user.getUserId();
@@ -27,7 +30,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return users.getPassword();
     }
 
     @Override

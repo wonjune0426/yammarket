@@ -37,8 +37,14 @@ public class Users {
         this.password=requestDto.getPassword();
     }
 
-    //@OneToMany(fetch = FetchType.LAZY, mappedBy = "users")
-    //private List<Posts> posts;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "users")
+    private List<Posts> posts;
+
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "users")
+    private List<Comments> comments;
+
+    @OneToMany(fetch =FetchType.LAZY,mappedBy = "users")
+    private List<Bookmarks> bookmarks;
 
 }
