@@ -1,7 +1,8 @@
 package com.example.yammarket.security;
 
-import com.example.chwblog.model.User;
-import com.example.chwblog.repository.UserRepository;
+
+import com.example.yammarket.model.Users;
+import com.example.yammarket.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -11,17 +12,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private final UserRepository userRepository;
+    private final UsersRepository usersRepository;
 
     @Autowired
-    public UserDetailsServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserDetailsServiceImpl(UsersRepository usersRepository) {
+        this.usersRepository = usersRepository;
     }
 
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Can't find " + username));
+    public UserDetails loadUserByUsername(String user_id) throws UsernameNotFoundException {
+        Users users = usersRepository.findByUser_id(user_id)
+                .orElseThrow(() -> new UsernameNotFoundException("Can't find " + user_id));
 
-        return new UserDetailsImpl(user);
+        return new UserDetailsImpl(users);
     }
 }
