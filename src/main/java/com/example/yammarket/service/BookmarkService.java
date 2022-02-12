@@ -1,10 +1,10 @@
 package com.example.yammarket.service;
 
-import com.example.yammarket.dto.BookmarkRequestDto;
 import com.example.yammarket.model.Bookmarks;
 import com.example.yammarket.model.Posts;
 import com.example.yammarket.model.Users;
 import com.example.yammarket.repository.BookmarkRepository;
+import com.example.yammarket.repository.PostRepository;
 import com.example.yammarket.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -22,9 +22,9 @@ public class BookmarkService {
 
     public boolean registerBookmarks(@PathVariable Long postId,
                                      @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        Posts posts = postRepository.findById(postId);
+        Posts posts = postRepository.findById(postId).orElseThrow(IllegalAccessError::new);
 
-        Users users = userDetails.getUser();
+        Users users = userDetails.getUsers();
         Bookmarks bookmarks = new Bookmarks(users, posts);
         bookmarkRepository.save(bookmarks);
         return true;
@@ -34,7 +34,7 @@ public class BookmarkService {
 
         Optional<Bookmarks> bookmarks = bookmarkRepository.findById(id);
         Users bookmarkUserId = bookmarks.get().getUsers();
-        Users userId = userDetails.getUser();
+        Users userId = userDetails.getUsers();
 
         boolean result;
         if (bookmarkUserId== userId) {

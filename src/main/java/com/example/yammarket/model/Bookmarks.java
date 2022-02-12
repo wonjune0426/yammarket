@@ -1,11 +1,11 @@
 package com.example.yammarket.model;
 
-import com.example.yammarket.dto.SignupRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Optional;
 
 @NoArgsConstructor
 @Getter

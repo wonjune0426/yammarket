@@ -53,19 +53,6 @@ public class UserService {
     }
 
 
-    public String loginPage (HttpServletResponse response) throws IOException {
-        if (!isAuthenticated()) {
-//            response.setContentType("text/html; charset=UTF-8");
-//            PrintWriter out = response.getWriter();
-//            out.println("<script>alert('로그인이 필요한 기능입니다');</script>");
-//            out.flush();
-            return "login";
-        }else{
-            return "redirect:/";
-        }
-
-    }
-
     public String login(HttpServletResponse response) throws IOException  {
         if (isAuthenticated()) {
 //            response.setContentType("text/html; charset=UTF-8");

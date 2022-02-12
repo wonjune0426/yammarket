@@ -17,12 +17,6 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("/user/loginPage")
-    public String loginPage (HttpServletResponse response) throws IOException {
-        String result = userService.loginPage(response);
-        return result;
-
-    }
 
     // 회원 로그인 페이지
     @GetMapping("/user/login")
