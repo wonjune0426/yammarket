@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @RequiredArgsConstructor
-@RestController
+@Controller
 public class UserController {
 
     private final UserService userService;
