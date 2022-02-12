@@ -15,13 +15,13 @@ public class ImageFiles {
     private Long id;
 
     @Column(nullable = false)
-    private String image_name;
+    private String imageName;
 
     @Column(nullable = false)
-    private String image_path;
+    private String imagePath;
 
     @Column(nullable = false)
-    private String image_size;
+    private String imageSize;
 
     @ManyToOne
     @JoinColumn(name = "post_id")

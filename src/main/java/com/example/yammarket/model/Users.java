@@ -16,7 +16,7 @@ public class Users {
     private Long id;
 
     @Column(nullable = false)
-    private String user_id;
+    private String userId;
 
     @Column(nullable = false)
     private String nickname;
@@ -24,8 +24,14 @@ public class Users {
     @Column(nullable = false)
     private String password;
 
-    //@OneToMany(fetch = FetchType.LAZY, mappedBy = "users")
-    //private List<Posts> posts;
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "users")
+//    private List<Posts> posts;
+//
+//    @OneToMany(fetch = FetchType.LAZY,mappedBy = "users")
+//    private List<Comments> comments;
+//
+//    @OneToMany(fetch =FetchType.LAZY,mappedBy = "users")
+//    private List<Bookmarks> bookmarks;
 
 
 }
