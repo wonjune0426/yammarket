@@ -1,6 +1,6 @@
 package com.example.yammarket.security;
 
-import com.example.chwblog.model.User;
+import com.example.yammarket.model.Users;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -9,13 +9,13 @@ import java.util.Collections;
 
 public class UserDetailsImpl implements UserDetails {
 
-    private final User user;
+    private final Users user;
 
-    public UserDetailsImpl(User user) {
+    public UserDetailsImpl(Users user) {
         this.user = user;
     }
 
-    public User getUser() {
+    public Users getUser() {
         return user;
     }
 
@@ -26,7 +26,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public String getUsername() {
-        return user.getUsername();
+        return user.getUser_id();
     }
 
     @Override
