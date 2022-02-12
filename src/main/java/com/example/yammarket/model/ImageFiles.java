@@ -27,4 +27,5 @@ public class ImageFiles {
     @JoinColumn(name = "post_id")
     private Posts posts;
 
+    // 테스트용커밋
 }
