@@ -1,5 +1,6 @@
 package com.example.yammarket.model;
 
+import com.example.yammarket.dto.SignupRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -23,6 +24,19 @@ public class Users {
 
     @Column(nullable = false)
     private String password;
+
+    public Users(String userId, String nickname, String password) {
+        this.userId=userId;
+        this.nickname=nickname;
+        this.password=password;
+    }
+
+    public Users(SignupRequestDto requestDto) {
+        this.userId=requestDto.getUserId();
+        this.nickname=requestDto.getNickname();
+        this.password=requestDto.getPassword();
+    }
+
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "users")
     private List<Posts> posts;

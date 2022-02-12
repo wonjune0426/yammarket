@@ -6,7 +6,6 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @Configuration
 @EnableWebSecurity // 스프링 Security 지원을 가능하게 함
@@ -42,7 +41,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 // [로그인 기능]
                 .formLogin()
 // 로그인 View 제공 (GET /user/login)
-                .loginPage("/user/login")
+                .loginPage("/user/loginPage")
 // 로그인 처리 (POST /user/login)
                 .loginProcessingUrl("/user/login")
 // 로그인 처리 후 성공 시 URL

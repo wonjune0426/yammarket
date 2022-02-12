@@ -10,6 +10,7 @@ import java.util.Collections;
 public class UserDetailsImpl implements UserDetails {
 
 
+
     private final Users users;
 
     public UserDetailsImpl(Users users) {
@@ -20,6 +21,12 @@ public class UserDetailsImpl implements UserDetails {
         return users;
 
     }
+    public String getUserId() {
+        return user.getUserId();
+    }
+    public String getNickname() {
+        return user.getNickname();
+    }
 
     @Override
     public String getPassword() {
@@ -28,7 +35,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public String getUsername() {
-        return users.getUserId();
+        return null;
     }
 
     @Override
