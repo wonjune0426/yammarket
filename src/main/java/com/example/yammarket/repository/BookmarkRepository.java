@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface BookmarkRepository extends JpaRepository<Bookmarks, Long> {
-    List<Bookmarks> findAllByOrderByCreatedAtDesc();
-    Optional<Bookmarks> findByPostId(Long postId);
+    //List<Bookmarks> findAllByOrderByCreatedAtDesc();
 
 }

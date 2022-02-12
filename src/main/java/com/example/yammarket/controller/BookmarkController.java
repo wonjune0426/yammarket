@@ -20,7 +20,7 @@ public class BookmarkController {
 
     @GetMapping("/bookmarks")
     public List<Bookmarks> getBookmarks()  {
-        return bookmarkRepository.findAllByOrderByCreatedAtDesc();
+        return bookmarkRepository.findAll();
     }
 
 

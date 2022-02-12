@@ -3,11 +3,13 @@ package com.example.yammarket.security;
 
 import com.example.yammarket.model.Users;
 import com.example.yammarket.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -19,7 +21,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         this.usersRepository = usersRepository;
     }
     public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
-        Users user = userRepository.findByUserId(userId)
+        Users users = usersRepository.findByUserId(userId)
                 .orElseThrow(() -> new UsernameNotFoundException("Can't find " + userId));
 
 

@@ -22,10 +22,10 @@ public class UserDetailsImpl implements UserDetails {
 
     }
     public String getUserId() {
-        return user.getUserId();
+        return users.getUserId();
     }
     public String getNickname() {
-        return user.getNickname();
+        return users.getNickname();
     }
 
     @Override
