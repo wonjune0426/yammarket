@@ -24,14 +24,14 @@ public class Users {
     @Column(nullable = false)
     private String password;
 
-//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "users")
-//    private List<Posts> posts;
-//
-//    @OneToMany(fetch = FetchType.LAZY,mappedBy = "users")
-//    private List<Comments> comments;
-//
-//    @OneToMany(fetch =FetchType.LAZY,mappedBy = "users")
-//    private List<Bookmarks> bookmarks;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "users")
+    private List<Posts> posts;
+
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "users")
+    private List<Comments> comments;
+
+    @OneToMany(fetch =FetchType.LAZY,mappedBy = "users")
+    private List<Bookmarks> bookmarks;
 
 
 }

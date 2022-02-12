@@ -24,7 +24,7 @@ public class Posts extends TimeStamped {
     private String desc;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id",nullable = false)
     private Users users;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "posts")
