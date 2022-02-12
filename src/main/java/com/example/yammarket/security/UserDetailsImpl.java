@@ -1,4 +1,4 @@
-/*package com.example.yammarket.security;
+package com.example.yammarket.security;
 
 import com.example.yammarket.model.Users;
 import org.springframework.security.core.GrantedAuthority;
@@ -9,24 +9,26 @@ import java.util.Collections;
 
 public class UserDetailsImpl implements UserDetails {
 
-    private final Users user;
 
-    public UserDetailsImpl(Users user) {
-        this.user = user;
+    private final Users users;
+
+    public UserDetailsImpl(Users users) {
+        this.users = users;
     }
 
-    public Users getUser() {
-        return user;
+    public Users getUsers() {
+        return users;
+
     }
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return users.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return user.getUsername();
+        return users.getUserId();
     }
 
     @Override
@@ -53,4 +55,4 @@ public class UserDetailsImpl implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.emptyList();
     }
-}*/
+}
