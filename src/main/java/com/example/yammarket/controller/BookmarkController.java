@@ -2,6 +2,7 @@ package com.example.yammarket.controller;
 
 
 import com.example.yammarket.model.Bookmarks;
+import com.example.yammarket.model.Posts;
 import com.example.yammarket.repository.BookmarkRepository;
 import com.example.yammarket.security.UserDetailsImpl;
 import com.example.yammarket.service.BookmarkService;
@@ -19,8 +20,8 @@ public class BookmarkController {
     private final BookmarkRepository bookmarkRepository;
 
     @GetMapping("/bookmarks")
-    public List<Bookmarks> getBookmarks()  {
-        return bookmarkRepository.findAll();
+    public List<Posts> getBookmarks(@AuthenticationPrincipal UserDetailsImpl userDetails)  {
+        return bookmarkService.getBookmarks(userDetails);
     }
 
 

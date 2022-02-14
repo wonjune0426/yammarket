@@ -19,11 +19,10 @@ public class Bookmarks {
 
     @ManyToOne
     @JoinColumn(name = "user_id",nullable = false)
-
     private Users users;
 
     @ManyToOne
-    @JoinColumn(name = "post_id",nullable = false)
+    @JoinColumn(name = "post_id",nullable = true)
     private Posts posts;
 
     public Bookmarks(Users users, Posts posts) {
