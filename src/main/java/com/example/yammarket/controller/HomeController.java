@@ -18,7 +18,9 @@ public class HomeController {
     }
 
     @GetMapping("/test")
-    public Test test(@RequestBody Test test) {
-        return test;
+    public Test test() {
+        Test testjson = new Test();
+        testjson.setMsg("it worked");
+        return testjson;
     }
 }

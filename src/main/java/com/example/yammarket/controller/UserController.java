@@ -32,11 +32,6 @@ public class UserController {
         return result;
     }
 
-    // 회원 가입 페이지
-    @GetMapping("/user/signup")
-    public String signup() {
-        return "signup";
-    }
 
     // 회원 가입 요청 처리
     @PostMapping("/user/signup")
@@ -46,11 +41,5 @@ public class UserController {
 
     }
 
-    @GetMapping("/denied")
-    public String accessDenied(@RequestParam(value = "exception",required = false) String exception,
-                               Model model){
-        String result = userService.accessDenied(exception, model);
-        return result;
-    }
 }
 
