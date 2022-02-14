@@ -23,7 +23,6 @@ public class UserController {
     public String login(HttpServletResponse response) throws IOException  {
         String result = userService.login(response);
         return result;
-
     }
 
     @PostMapping("/user/logout")
@@ -43,7 +42,6 @@ public class UserController {
     public Boolean registerUser(@RequestBody SignupRequestDto requestDto) {
         Boolean result = userService.registerUser(requestDto);
         return result;
-
     }
 
     @GetMapping("/denied")
