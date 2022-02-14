@@ -55,10 +55,10 @@ public class UserService {
 
     public String login(HttpServletResponse response) throws IOException  {
         if (isAuthenticated()) {
-//            response.setContentType("text/html; charset=UTF-8");
-//            PrintWriter out = response.getWriter();
-//            out.println("<script>alert('이미 로그인 상태입니다.'); history.go(-1);</script>");
-//            out.flush();
+            response.setContentType("text/html; charset=UTF-8");
+            PrintWriter out = response.getWriter();
+            out.println("<script>alert('이미 로그인 상태입니다.'); history.go(-1);</script>");
+            out.flush();
             return "redirect:/";
         }else{
             return "login";
@@ -68,13 +68,13 @@ public class UserService {
 
     public String logoutPage (HttpServletResponse response) throws IOException {
         if (!isAuthenticated()) {
-//            response.setContentType("text/html; charset=UTF-8");
-//            PrintWriter out = response.getWriter();
-//            out.println("<script>alert('이미 로그아웃 상태입니다.'); history.go(-1);</script>");
-//            out.flush();
-            return "login";
+            response.setContentType("text/html; charset=UTF-8");
+            PrintWriter out = response.getWriter();
+            out.println("<script>alert('이미 로그아웃 상태입니다.'); history.go(-1);</script>");
+            out.flush();
+            return "redirect:/";
         }else{
-            return "redirect:/user/logout";
+            return "logout";
         }
     }
 
