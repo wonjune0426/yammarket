@@ -7,4 +7,13 @@ import lombok.Setter;
 @Setter
 public class Test {
     private String msg;
+
+
+    @Override
+    public String toString() {
+        return "Test{" +
+                "msg='" + msg + '\'' +
+                '}';
+    }
+
 }
