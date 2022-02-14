@@ -19,7 +19,6 @@ public class Bookmarks {
 
     @ManyToOne
     @JoinColumn(name = "user_id",nullable = false)
-
     private Users users;
 
     @ManyToOne

@@ -48,7 +48,9 @@ public class PostService {
         Posts posts = new Posts(requestDto);
 
         try {
+            System.out.println("~~~ 1");
             postRepository.save(posts);
+            System.out.println("~~~ 2");
         } catch (Exception e){
             e.printStackTrace();
             return false;

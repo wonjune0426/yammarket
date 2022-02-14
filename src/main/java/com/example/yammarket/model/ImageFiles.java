@@ -24,7 +24,7 @@ public class ImageFiles {
     private String imageSize;
 
     @ManyToOne
-    @JoinColumn(name = "post_id")
+    @JoinColumn(name = "post_id", nullable = false)
     private Posts posts;
 
 }
