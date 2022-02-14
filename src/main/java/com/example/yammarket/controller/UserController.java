@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RequiredArgsConstructor
 @Controller
 public class UserController {
@@ -19,11 +20,10 @@ public class UserController {
 
 
     // 회원 로그인 페이지
-    @GetMapping("/user/login")
-    public String login(HttpServletResponse response) throws IOException  {
+    @PostMapping("/user/login")
+    public String loginPage(HttpServletResponse response) throws IOException  {
         String result = userService.login(response);
         return result;
-
     }
 
     @PostMapping("/user/logout")
