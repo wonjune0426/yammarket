@@ -1,4 +1,8 @@
-package com.example.yammarket.security;import org.springframework.context.annotation.Bean;
+package com.example.yammarket.security;
+
+import com.example.yammarket.Handler.AppAuthenticationSuccessHandler;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -22,25 +26,30 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         web
                 .ignoring()
                 .antMatchers("/h2-console/**")
-                .antMatchers("/css/**", "/js/**", "/images/**", "/lib/**");
+                .antMatchers("/css/**", "/js/**", "/images/**", "/lib/**")
+                .antMatchers("/favicon.ico", "/resources/**", "/error")
+                .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 // CSRF protection 을 비활성화
-        http.csrf().disable();
+        http.csrf();
 
         http.authorizeRequests()
                 .antMatchers("/css/**", "js/**", "/img/**", "/lib/**").permitAll()
+                .antMatchers("/favicon.ico", "/resource/**", "/error").permitAll()
                 .antMatchers("/user/**").permitAll()
+                .antMatchers("/", "/test/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/posts/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/comments/**").permitAll()
-                .antMatchers("/").permitAll()
+
                 //.antMatchers("/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
 // [로그인 기능]
                 .formLogin()
+                //.successHandler(new AppAuthenticationSuccessHandler())
 // 로그인 View 제공 (GET /user/login)
                 .loginPage("/user/login")
 // 로그인 처리 (POST /user/login)

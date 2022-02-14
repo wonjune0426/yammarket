@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RequiredArgsConstructor
 @Controller
 public class UserController {
@@ -19,8 +20,8 @@ public class UserController {
 
 
     // 회원 로그인 페이지
-    @GetMapping("/user/login")
-    public String login(HttpServletResponse response) throws IOException  {
+    @PostMapping("/user/login")
+    public String loginPage(HttpServletResponse response) throws IOException  {
         String result = userService.login(response);
         return result;
     }
@@ -31,11 +32,6 @@ public class UserController {
         return result;
     }
 
-    // 회원 가입 페이지
-    @GetMapping("/user/signup")
-    public String signup() {
-        return "signup";
-    }
 
     // 회원 가입 요청 처리
     @PostMapping("/user/signup")
@@ -44,11 +40,5 @@ public class UserController {
         return result;
     }
 
-    @GetMapping("/denied")
-    public String accessDenied(@RequestParam(value = "exception",required = false) String exception,
-                               Model model){
-        String result = userService.accessDenied(exception, model);
-        return result;
-    }
 }
 

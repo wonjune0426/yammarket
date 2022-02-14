@@ -22,7 +22,7 @@ public class Bookmarks {
     private Users users;
 
     @ManyToOne
-    @JoinColumn(name = "post_id",nullable = false)
+    @JoinColumn(name = "post_id",nullable = true)
     private Posts posts;
 
     public Bookmarks(Users users, Posts posts) {
