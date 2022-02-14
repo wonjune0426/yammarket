@@ -38,7 +38,6 @@ public class UserController {
     public Boolean registerUser(@RequestBody SignupRequestDto requestDto) {
         Boolean result = userService.registerUser(requestDto);
         return result;
-
     }
 
 }
