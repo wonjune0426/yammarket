@@ -34,7 +34,7 @@ public class PostController {
 
     //  @AuthenticationPrincipal UserDetailsImpl userDetails 넣을까 말까
     // 댓글은 댓글조회 url을 만들어서 불러주는게 맞는듯
-    @GetMapping("/views/posts/{postId}")
+    @GetMapping("/posts/{postId}")
     public Posts viewPost(@PathVariable Long postId){
         return postService.viewPostInfo(postId);
     }

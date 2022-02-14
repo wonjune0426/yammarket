@@ -36,6 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/posts/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/comments/**").permitAll()
                 .antMatchers("/").permitAll()
+                //.antMatchers("/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
 // [로그인 기능]

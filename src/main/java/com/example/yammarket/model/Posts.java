@@ -40,6 +40,8 @@ public class Posts extends TimeStamped {
 
     // 게시글 생성 시 이용할 생성자
     public Posts(PostRequestDto requestDto){
+        System.out.println("~~~ title :"+requestDto.getTitle());
+        System.out.println("~~~ desc : "+requestDto.getDesc());
         this.title = requestDto.getTitle();
         this.desc = requestDto.getDesc();
     }
