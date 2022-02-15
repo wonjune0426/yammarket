@@ -25,6 +25,10 @@ spring:
     servlet:
         multipart:
             maxFileSize: 10MB
+    h2:
+        console:
+            enabled: true
+
 # ???? ??? ?? trace
 logging:
     level:
