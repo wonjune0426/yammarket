@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RequiredArgsConstructor
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -21,7 +22,7 @@ public class BookmarkController {
     private final BookmarkRepository bookmarkRepository;
 
     @GetMapping("/bookmarks")
-    public List<Posts> getBookmarks(@AuthenticationPrincipal UserDetailsImpl userDetails)  {
+    public List<Long> getBookmarks(@AuthenticationPrincipal UserDetailsImpl userDetails)  {
         return bookmarkService.getBookmarks(userDetails);
     }
 

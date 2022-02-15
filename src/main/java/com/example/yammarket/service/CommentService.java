@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -43,5 +44,14 @@ public class CommentService {
                 ()->new NullPointerException("삭제할 댓글이 없습니다."));
         commentRepository.deleteById(comments.getId());
         return true;
+    }
+
+    @Transactional
+    public List<Comments> getComments(Long postId) {
+        Posts posts=postsRepository.findById(postId).orElseThrow(
+                ()->new NullPointerException("댓글을 작성할 게시글이 없습니다.")
+        );
+
+        return commentRepository.findAllByPosts(posts);
     }
 }
