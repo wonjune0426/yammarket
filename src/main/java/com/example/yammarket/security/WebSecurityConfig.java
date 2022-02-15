@@ -34,7 +34,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 // CSRF protection 을 비활성화
-        http.csrf();
+        http.csrf().disable();  // disable 해야지만 post 요청이 된다.
 
         http.authorizeRequests()
                 .antMatchers("/css/**", "js/**", "/img/**", "/lib/**").permitAll()
@@ -43,8 +43,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/", "/test/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/posts/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/comments/**").permitAll()
+                //.antMatchers(HttpMethod.POST, "/**").permitAll()
 
-                //.antMatchers("/**").permitAll()
+                .antMatchers("/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
 // [로그인 기능]

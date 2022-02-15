@@ -1,6 +1,7 @@
 package com.example.yammarket.model;
 
 import com.example.yammarket.dto.PostRequestDto;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -34,9 +35,10 @@ public class Posts extends TimeStamped {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "posts")
     private List<Comments> comments;
 
-
 //    @OneToMany(fetch = FetchType.LAZY, mappedBy = "posts")
 //    private List<ImageFiles> imageFiles;
+    @Column(nullable = true)
+    private Long fileId;
 
     // 게시글 생성 시 이용할 생성자
     public Posts(PostRequestDto requestDto){
@@ -49,5 +51,13 @@ public class Posts extends TimeStamped {
     public void update(PostRequestDto requestDto){
         this.title = requestDto.getTitle();
         this.desc = requestDto.getDesc();
+    }
+
+    @Builder
+    public Posts(String user_id, String title, String desc, Long fileId){
+        //this.users.getUserId() = user_id;
+        this.title = title;
+        this.desc = desc;
+        this.fileId = fileId;
     }
 }

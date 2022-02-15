@@ -1,5 +1,6 @@
 package com.example.yammarket.service;
 
+import com.example.yammarket.dto.PostDto;
 import com.example.yammarket.dto.PostRequestDto;
 import com.example.yammarket.model.Posts;
 import com.example.yammarket.repository.PostRepository;
@@ -67,5 +68,27 @@ public class PostService {
             return false;
         }
         return true;
+    }
+
+    @Transactional
+    public Long savePost(PostDto postDto) {
+        return postRepository.save(postDto.toEntity()).getId();
+    }
+
+    @Transactional
+    public PostDto getPost(Long id){
+        // 뒤에 .get() 안씀..
+        Posts posts = postRepository.findById(id).get(); // null 처리 해줘야할 듯
+        /*Post post = postRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("~~~post의 id가 존재하지 않습니다. 아마도")
+        );*/
+
+        PostDto postDto = PostDto.builder()
+                .userId(posts.getUsers().getUserId())
+                .title(posts.getTitle())
+                .desc(posts.getDesc())
+                .fileId(posts.getFileId())
+                .build();
+        return postDto;
     }
 }
