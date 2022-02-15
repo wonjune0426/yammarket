@@ -25,6 +25,7 @@ import javax.validation.Valid;
 @CrossOrigin(origins = "http://localhost:3000")
 public class UserController{
 
+    private JwtTokenProvider jwtTokenProvider;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -66,6 +67,15 @@ public class UserController{
     public Boolean registerUser(@RequestBody SignupRequestDto requestDto) {
         Boolean result = userService.registerUser(requestDto);
         return result;
+    }
+
+    @PostMapping("/user/check")
+    public Users checkUser(HttpServletRequest request) throws Exception {
+        String token = request.getHeader("authorization");
+        String userId = jwtTokenProvider.getUserIdFromJWT(token);
+        Users user = userRepository.findByUserId(userId).orElseThrow(()->new Exception("invalid Token"));
+
+        return user;
     }
 
 
