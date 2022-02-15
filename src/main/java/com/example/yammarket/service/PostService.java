@@ -1,10 +1,14 @@
 package com.example.yammarket.service;
 
+//import com.example.yammarket.Handler.ImageFileHandler;
 import com.example.yammarket.dto.PostRequestDto;
+import com.example.yammarket.model.ImageFiles;
 import com.example.yammarket.model.Posts;
+import com.example.yammarket.repository.ImageFileRepository;
 import com.example.yammarket.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -14,6 +18,8 @@ import java.util.List;
 public class PostService {
 
     private final PostRepository postRepository;
+    //private final ImageFileRepository imageFileRepository;
+    //private final ImageFileHandler imageFileHandler;
 
     @Transactional
     public List<Posts> getpostList(){
@@ -44,8 +50,17 @@ public class PostService {
     }
 
     @Transactional
-    public Boolean createPostInfo(PostRequestDto requestDto){
+    public Boolean createPostInfo(PostRequestDto requestDto, List<MultipartFile> imageFiles) throws Exception {
         Posts posts = new Posts(requestDto);
+
+        //List<ImageFiles> imageFilesList = imageFileHandler.parseFileInfo(imageFiles);
+
+        // 파일이 존재할 때에만 처리
+//        if(!imageFilesList.isEmpty()){
+//            for(ImageFiles imageFiles_list : imageFilesList)
+//                // 파일을 DB에 저장
+//                posts.addImageFiles(imageFileRepository.save(imageFiles_list));
+//        }
 
         try {
             System.out.println("~~~ 1");

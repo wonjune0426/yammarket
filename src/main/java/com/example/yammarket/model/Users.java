@@ -1,15 +1,22 @@
 package com.example.yammarket.model;
 
 import com.example.yammarket.dto.SignupRequestDto;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import io.jsonwebtoken.Claims;
+import lombok.*;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.List;
 
-@NoArgsConstructor
+@Builder
 @Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 @Entity
+@EntityListeners(AuditingEntityListener.class)
+@Table(name="USERS")
 public class Users {
 
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -36,15 +43,5 @@ public class Users {
         this.nickname=requestDto.getNickname();
         this.password=requestDto.getPassword();
     }
-
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "users")
-    private List<Posts> posts;
-
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "users")
-    private List<Comments> comments;
-
-    @OneToMany(fetch =FetchType.LAZY,mappedBy = "users")
-    private List<Bookmarks> bookmarks;
 
 }
