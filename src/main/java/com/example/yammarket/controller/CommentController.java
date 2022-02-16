@@ -1,5 +1,6 @@
 package com.example.yammarket.controller;
 
+import com.example.yammarket.dto.CommentRequestDto;
 import com.example.yammarket.model.Comments;
 import com.example.yammarket.security.UserDetailsImpl;
 import com.example.yammarket.service.CommentService;
@@ -22,18 +23,18 @@ public class CommentController {
     @PostMapping("/comments/{postId}")
     public boolean commentsWrite(
             @PathVariable Long postId,
-            @RequestBody String comment,
+            @RequestBody CommentRequestDto commentRequestDto,
             @AuthenticationPrincipal UserDetailsImpl userDetails){
-        return commentService.commentsWrite(postId,comment,userDetails);
+        return commentService.commentsWrite(postId,commentRequestDto,userDetails);
     }
 
 
     //댓글 수정
     @PutMapping("/comments/{commentId}")
     public boolean commentUpdate(@PathVariable Long commentId,
-                                 @RequestBody String comment,
+                                 @RequestBody CommentRequestDto commentRequestDto,
                                  @AuthenticationPrincipal UserDetailsImpl userDetails){
-        return commentService.commentUpdate(commentId,comment,userDetails);
+        return commentService.commentUpdate(commentId,commentRequestDto,userDetails);
     }
 
 

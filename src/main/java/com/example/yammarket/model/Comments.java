@@ -19,18 +19,22 @@ public class Comments extends TimeStamped {
     @Column(nullable = false)
     private String comment;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id",nullable = false)
-    private Users users;
+    @Column(nullable = false)
+    private Long postId;
 
-    @ManyToOne
-    @JoinColumn(name = "post_id",nullable = false)
-    private Posts posts;
-
-    public Comments(String comment,Users users,Posts posts){
+    @Column(nullable = false)
+    private String userId;
+//    @ManyToOne
+//    @JoinColumn(name = "user_id",nullable = false)
+//    private Users users;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "post_id",nullable = false)
+//    private Posts posts;
+    public Comments(String comment,Long postId,String userId){
         this.comment=comment;
-        this.users=users;
-        this.posts=posts;
+        this.postId=postId;
+        this.userId=userId;
     }
 
 }

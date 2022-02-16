@@ -36,11 +36,11 @@ public class Posts extends TimeStamped {
     @Column(nullable = false)
     private String userId;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "posts")
-    private List<Bookmarks> bookmarks;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "posts")
-    private List<Comments> comments;
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "posts")
+//    private List<Bookmarks> bookmarks;
+//
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "posts")
+//    private List<Comments> comments;
 
 //    @OneToMany(fetch = FetchType.LAZY, mappedBy = "posts")
 //    private List<ImageFiles> imageFiles;

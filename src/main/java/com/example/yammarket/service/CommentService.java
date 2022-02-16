@@ -1,5 +1,6 @@
 package com.example.yammarket.service;
 
+import com.example.yammarket.dto.CommentRequestDto;
 import com.example.yammarket.model.Comments;
 import com.example.yammarket.model.Posts;
 import com.example.yammarket.model.Users;
@@ -10,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -20,24 +22,25 @@ public class CommentService {
     private final PostRepository postsRepository;
 
     @Transactional
-    public boolean commentsWrite(Long postId, String comment, UserDetailsImpl userDetails) {
+    public boolean commentsWrite(Long postId, CommentRequestDto commentRequestDto, UserDetailsImpl userDetails) {
         Posts posts=postsRepository.findById(postId).orElseThrow(
                 ()-> new NullPointerException("댓글을 작성할 게시글이 없습니다."));
 
         Users users=userDetails.getUsers();
-        Comments comments=new Comments(comment,users,posts);
+        Comments comments=new Comments(commentRequestDto.getComment(),postId,users.getUserId());
         commentRepository.save(comments);
         return true;
     }
 
     @Transactional
-    public boolean commentUpdate(Long commentId, String comment, UserDetailsImpl userDetails) {
+    public boolean commentUpdate(Long commentId, CommentRequestDto commentRequestDto, UserDetailsImpl userDetails) {
         Comments comments= commentRepository.findById(commentId).orElseThrow(
                 ()->new NullPointerException("수정할 댓글이 없습니다."));
-        System.out.println("~~~ 댓글 수정 comments.getUsers().getUserId() : "+comments.getUsers().getUserId());
-        System.out.println("~~~ 댓글 수정 comments.getUsers() : "+comments.getUsers());
-        if(comments.getUsers().equals(userDetails.getUsers())) {
-            comments.setComment(comment);
+        System.out.println(comments.getUserId());
+        System.out.println();
+        System.out.println(userDetails.getUsers().getUserId());
+        if(comments.getUserId().equals(userDetails.getUsers().getUserId())) {
+            comments.setComment(commentRequestDto.getComment());
             return true;
         }else{
             return false;
@@ -48,10 +51,7 @@ public class CommentService {
     public boolean deleteComment(Long commentId,UserDetailsImpl userDetails) {
         Comments comments= commentRepository.findById(commentId).orElseThrow(
                 ()->new NullPointerException("삭제할 댓글이 없습니다."));
-        System.out.println("~~~ 댓글 삭제 comments.getUsers().getUserId() : "+comments.getUsers().getUserId());
-        System.out.println("~~~ 댓글 삭제 comments.getUsers() : "+comments.getUsers());
-        
-        if(comments.getUsers().equals(userDetails.getUsers())){
+        if(comments.getUserId().equals(userDetails.getUsers().getUserId())){
             commentRepository.deleteById(comments.getId());
             return true;
         }else{
@@ -65,6 +65,6 @@ public class CommentService {
                 ()->new NullPointerException("댓글을 작성할 게시글이 없습니다.")
         );
 
-        return commentRepository.findAllByPosts(posts);
+        return commentRepository.findCommentsByPostId(postId);
     }
 }
