@@ -1,5 +1,5 @@
 package com.example.yammarket.security;
-
+//test
 import lombok.extern.slf4j.Slf4j;
 //import com.spring.guide.global.error.exception.ErrorCode;
 import org.springframework.security.core.AuthenticationException;
