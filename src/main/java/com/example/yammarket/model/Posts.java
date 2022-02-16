@@ -49,7 +49,7 @@ public class Posts extends TimeStamped {
 //    @JoinColumn(name = "file_id")
 //    private Posts posts;
 
-    
+
     // 게시글 생성 시 이용할 생성자
     @Builder
     public Posts(PostRequestDto requestDto){
@@ -83,4 +83,5 @@ public class Posts extends TimeStamped {
         this.desc = desc;
         this.fileId = fileId;
     }
+    
 }
