@@ -44,7 +44,7 @@ public class PostController {
 //    }
 
     // 게시글 생성
-    @PostMapping("/posts/write1")    // "file"은 프론트의 input name="file" 인듯
+    @PostMapping("/posts/write")    // "file"은 프론트의 input name="file" 인듯
     public Boolean createPost(@RequestPart(value = "file")MultipartFile files,
                               @RequestPart(value = "post") PostDto postDto,
                               @AuthenticationPrincipal UserDetailsImpl userDetails
