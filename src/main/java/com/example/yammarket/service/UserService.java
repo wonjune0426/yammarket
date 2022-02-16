@@ -21,7 +21,11 @@ import java.util.Optional;
 @Service
 public class UserService {
     private final PasswordEncoder passwordEncoder;
+
+    @Autowired
     private final UserRepository userRepository;
+
+    public Optional<Users> findByUserId(String id) { return userRepository.findByUserId(id); }
 
     public boolean registerUser(SignupRequestDto requestDto) {
 // 회원 ID 중복 확인
@@ -50,41 +54,6 @@ public class UserService {
             return false;
         }
         return authentication.isAuthenticated();
-    }
-
-
-    public String login(HttpServletResponse response) throws IOException  {
-        if (isAuthenticated()) {
-            response.setContentType("text/html; charset=UTF-8");
-            PrintWriter out = response.getWriter();
-            out.println("<script>alert('이미 로그인 상태입니다.'); history.go(-1);</script>");
-            out.flush();
-            return "redirect:/";
-        }else{
-            return "login";
-        }
-
-    }
-
-    public String logoutPage (HttpServletResponse response) throws IOException {
-        if (!isAuthenticated()) {
-            response.setContentType("text/html; charset=UTF-8");
-            PrintWriter out = response.getWriter();
-            out.println("<script>alert('이미 로그아웃 상태입니다.'); history.go(-1);</script>");
-            out.flush();
-            return "redirect:/";
-        }else{
-            return "logout";
-        }
-    }
-
-    public String accessDenied(@RequestParam(value = "exception",required = false) String exception,
-                               Model model){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Users user = (Users)authentication.getPrincipal();
-        model.addAttribute("userId",user.getUserId());
-        model.addAttribute("exception",exception);
-        return "denied";
     }
 
 

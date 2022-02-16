@@ -10,6 +10,7 @@ import com.example.yammarket.service.ImageFileService;
 import com.example.yammarket.service.PostService;
 import com.example.yammarket.util.MD5Generator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,9 +19,9 @@ import org.springframework.web.servlet.ModelAndView;
 import java.io.File;
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:3000") // 하나로 하려면 configuration 처럼
 @RequiredArgsConstructor
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 public class PostController {
 
     private final PostService postService;
@@ -185,5 +186,4 @@ public class PostController {
 //    public Boolean deletePost(@PathVariable Long postId){
 //        return postService.deletePostService(postId);
 //    }
-
 }

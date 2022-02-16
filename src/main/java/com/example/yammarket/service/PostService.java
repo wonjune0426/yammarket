@@ -2,10 +2,13 @@ package com.example.yammarket.service;
 
 import com.example.yammarket.dto.PostDto;
 import com.example.yammarket.dto.PostRequestDto;
+import com.example.yammarket.model.ImageFiles;
 import com.example.yammarket.model.Posts;
+import com.example.yammarket.repository.ImageFileRepository;
 import com.example.yammarket.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -15,6 +18,8 @@ import java.util.List;
 public class PostService {
 
     private final PostRepository postRepository;
+    //private final ImageFileRepository imageFileRepository;
+    //private final ImageFileHandler imageFileHandler;
 
     @Transactional
     public List<Posts> getpostList(){
