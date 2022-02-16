@@ -11,5 +11,5 @@ import java.util.Optional;
 public interface BookmarkRepository extends JpaRepository<Bookmarks, Long> {
     List<String> findAllByUserId(String userId);
     //List<Bookmarks> findAllByOrderByCreatedAtDesc();
-
+    List<Bookmarks> deleteByPostId(Long postId);
 }

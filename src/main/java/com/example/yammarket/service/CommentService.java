@@ -67,4 +67,18 @@ public class CommentService {
 
         return commentRepository.findCommentsByPostId(postId);
     }
+
+    @Transactional
+    public void deleteComment2(Long id){
+        commentRepository.deleteById(id);
+    }
+
+//    public Comments getPostIdByComment(Long id){
+//        Comments comments = commentRepository.findById(id).orElseThrow(
+//                () -> new IllegalArgumentException("~~~comment의 id가 존재하지 않습니다")
+//        );
+//
+//        return comments;
+//    }
+
 }

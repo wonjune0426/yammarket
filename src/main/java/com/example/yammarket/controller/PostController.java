@@ -3,10 +3,14 @@ package com.example.yammarket.controller;
 import com.example.yammarket.dto.ImageFileDto;
 import com.example.yammarket.dto.PostDto;
 import com.example.yammarket.dto.PostRequestDto;
+import com.example.yammarket.model.Bookmarks;
+import com.example.yammarket.model.Comments;
 import com.example.yammarket.model.ImageFiles;
 import com.example.yammarket.model.Posts;
 import com.example.yammarket.repository.ImageFileRepository;
 import com.example.yammarket.security.UserDetailsImpl;
+import com.example.yammarket.service.BookmarkService;
+import com.example.yammarket.service.CommentService;
 import com.example.yammarket.service.ImageFileService;
 import com.example.yammarket.service.PostService;
 import com.example.yammarket.util.MD5Generator;
@@ -27,6 +31,8 @@ public class PostController {
 
     private final PostService postService;
     private final ImageFileService fileService;
+    private final CommentService commentService;
+    private final BookmarkService bookmarkService;
 
     // 처음에는 그냥 메인페이지만 보여주는게 맞고
     // 메인페이지("/")로 가서 post의 list를 호출을 해주는게 맞다
@@ -45,7 +51,7 @@ public class PostController {
 
     // 게시글 생성
     @PostMapping("/posts/write1")    // "file"은 프론트의 input name="file" 인듯
-    public Boolean createPost(@RequestPart(value = "file")MultipartFile files,
+    public Boolean createPost(@RequestPart(value = "file") MultipartFile files,
                               @RequestPart(value = "post") PostDto postDto,
                               @AuthenticationPrincipal UserDetailsImpl userDetails
                               ) {
@@ -78,8 +84,6 @@ public class PostController {
             Long fileId = fileService.saveFile(fileDto); // 이미지 파일을 저장한다.
             postDto.setFileId(fileId);  // 저장한 이미지 파일의 아이디를 postDto에 담는다
 
-            // 일단 이름을 임의로 박음
-            //postDto.setUserId("iamuser");
             postDto.setUserId(userDetails.getUserId());
             postService.savePost(postDto);  // postDto를 저장한다.
         } catch (Exception e) {
@@ -199,6 +203,14 @@ public class PostController {
 
         Long fileId;
         try{
+            // postId에 관련된 댓글과 즐겨찾기가 삭제됨
+            /*List<Comments> commentsList = commentService.getComments(postId);
+            for (Comments comments: commentsList ) {
+                if(comments.getPostId().equals(postId)){
+                    commentService.deleteComment2(comments.getId());
+                }
+            }*/
+            
             //Posts posts = postService.getPost(postId); - 위에서 사용함
             fileId = posts.getFileId();
             System.out.println("~~~ 삭제 fileId : "+fileId);

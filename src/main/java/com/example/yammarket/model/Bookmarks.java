@@ -24,15 +24,21 @@ public class Bookmarks {
     @Column(nullable = false)
     private String userId;
 
-    @ManyToOne
+    /*@ManyToOne
     @JoinColumn(name = "post_id",nullable = true)
-    private Posts posts;
+    private Posts posts;*/
 
-    public Bookmarks(String userId, Posts posts) {
-        this.userId=userId;
-        this.posts=posts;
+    @Column(nullable = false)
+    private Long postId;
+
+    public Bookmarks(String userId, Long postId) {
+        this.userId = userId;
+        this.postId = postId;
     }
 
-
+    /*public Bookmarks(String userId, Posts posts) {
+        this.userId=userId;
+        this.posts=posts;
+    }*/
 
 }

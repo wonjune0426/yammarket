@@ -36,7 +36,8 @@ public class BookmarkService {
         //반복문으로 로그인할 유저와 북마크 유저가 같으면 List에 add
         for(Bookmarks bookmarks:bookmarkList){
             if(bookmarks.getUserId().equals(userDetails.getUserId())){
-                postidList.add(bookmarks.getPosts().getId());
+                //postidList.add(bookmarks.getPosts().getId());
+                postidList.add(bookmarks.getPostId());
             }
         }
         return postidList;
@@ -57,7 +58,8 @@ public class BookmarkService {
         Posts posts = postRepository.findById(postId).orElseThrow(IllegalAccessError::new);
 
         String userId = userDetails.getUsers().getUserId();
-        Bookmarks bookmarks = new Bookmarks(userId, posts);
+        //Bookmarks bookmarks = new Bookmarks(userId, posts);
+        Bookmarks bookmarks = new Bookmarks(userId, posts.getId());
         bookmarkRepository.save(bookmarks);
         return true;
     }
