@@ -29,13 +29,11 @@ public class BookmarkController {
     @PostMapping("/bookmarks/{postId}")
     public boolean registerBookmarks(@PathVariable Long postId,
                            @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        bookmarkService.registerBookmarks(postId, userDetails);
-        return true;
+        return bookmarkService.registerBookmarks(postId, userDetails);
     }
 
-    @DeleteMapping("/bookmarks/{postId}")
-    public boolean deleteBookmarks(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        bookmarkService.deleteBookmarks(postId, userDetails);
-        return true;
+    @DeleteMapping("/bookmarks/{bookmarkId}")
+    public boolean deleteBookmarks(@PathVariable Long bookmarkId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return bookmarkService.deleteBookmarks(bookmarkId, userDetails);
     }
 }

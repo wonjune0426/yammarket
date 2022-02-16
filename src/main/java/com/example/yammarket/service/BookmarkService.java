@@ -64,18 +64,17 @@ public class BookmarkService {
 
     public boolean deleteBookmarks(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
-        Optional<Bookmarks> bookmarks = bookmarkRepository.findById(id);
-        String bookmarkUserId = bookmarks.get().getUserId();
+        Bookmarks bookmarks = bookmarkRepository.findById(id).orElseThrow(IllegalArgumentException::new);
+        String bookmarkUserId = bookmarks.getUserId();
         String userId = userDetails.getUsers().getUserId();
 
-        boolean result;
-        if (bookmarkUserId== userId) {
+
+        if (bookmarkUserId.equals(userId)) {
             bookmarkRepository.deleteById(id);
-            result = true;
+            return true;
         } else {
-            result = false;
+            return false;
         }
 
-        return result;
     }
 }
