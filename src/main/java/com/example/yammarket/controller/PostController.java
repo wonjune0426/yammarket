@@ -4,8 +4,10 @@ import com.example.yammarket.dto.PostRequestDto;
 import com.example.yammarket.model.Posts;
 import com.example.yammarket.service.PostService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -13,6 +15,7 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:3000")
 @RequiredArgsConstructor
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 public class PostController {
 
     private final PostService postService;
@@ -27,10 +30,9 @@ public class PostController {
     // 일단 반환하는데 Boolean 형인데
     // user정보가 필요하면  @AuthenticationPrincipal UserDetailsImpl userDetails 를 사용하면 된다.
     @PostMapping("/posts/write")
-    public Boolean createPost(@RequestBody PostRequestDto requestDto){
-        return postService.createPostInfo(requestDto);
-        //LocalDateTime cr = post.getCreatedAt();
-        //LocalDateTime md = post.getModifiedAt();
+    @ResponseStatus(HttpStatus.CREATED)
+    public Boolean createPost(@RequestBody PostRequestDto requestDto, @RequestParam(value="image", required=false) List<MultipartFile> imageFiles) throws Exception {
+        return postService.createPostInfo(requestDto, imageFiles);
     }
 
     //  @AuthenticationPrincipal UserDetailsImpl userDetails 넣을까 말까
@@ -50,5 +52,6 @@ public class PostController {
     public Boolean deletePost(@PathVariable Long postId){
         return postService.deletePostService(postId);
     }
+
 
 }
