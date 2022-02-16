@@ -17,22 +17,13 @@ import java.util.UUID;
 @Service
 public class ImageFileService {
 
-    private ImageFileRepository fileRepository;
+    private final ImageFileRepository fileRepository;
 
     @Transactional
     public Long saveFile(ImageFileDto fileDto){
-//        ImageFiles imageFiles = new ImageFiles(fileDto);
-//        return fileRepository.save(imageFiles).getId();
-        /*try{
-            System.out.println("~~~ imageFiles.getId() : "+ imageFiles.getId());
-        } catch (Exception e){
-            e.printStackTrace();
-            System.out.println("후....");
-            return 1L;
-        }
-        return imageFiles.getId();*/
-
-        return fileRepository.save(fileDto.toEntity()).getId();
+        ImageFiles imageFiles = new ImageFiles(fileDto);
+        return fileRepository.save(imageFiles).getId();
+        //return fileRepository.save(fileDto.toEntity()).getId();
     }
 
     @Transactional
@@ -46,6 +37,17 @@ public class ImageFileService {
                 .fileSize(files.getFileSize())
                 .build();
         return fileDto;
+    }
+
+    @Transactional
+    public Boolean deleteFile(Long fileId){
+        try {
+            fileRepository.deleteById(fileId);
+        } catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     /*@Transactional

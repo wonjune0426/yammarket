@@ -81,66 +81,47 @@ public class PostController {
         return true;
     }
 
-    @PostMapping("/file/uploadtest")
-    public String testupload2(@RequestParam(value = "file")MultipartFile files){
-        System.out.println("~~~ : " + files.getSize());
-        return "true";
+
+    //  @AuthenticationPrincipal UserDetailsImpl userDetails 넣을까 말까
+    // 댓글은 댓글조회 url을 만들어서 불러주는게 맞는듯
+    @GetMapping("/posts/{postId}")
+    public Posts viewPost(@PathVariable Long postId){
+        return postService.viewPostInfo(postId);
     }
 
-    @PostMapping("/file/upload")
-    public String uploadImage(@RequestParam("file") MultipartFile files) {
-        //public String uploadImage(@RequestPart MultipartFile files){
-        String filePath = "";
+    // 수정
+    // Post에 fileId도 있으니까 그거 이용하자
+    @PatchMapping("/posts/{postId}")
+    public Boolean updatePost(@PathVariable Long postId,
+                              @RequestPart(value = "file")MultipartFile files,
+                              @RequestPart(value = "post") PostDto postDto){
+
+        Long fileId;
         try {
-            System.out.println("~~~ 2");
+            // 일단 사진 필수라고 하자
+            if( !files.isEmpty() ){
+                System.out.println("~~~ notEmpty");
+                //fileId = postDto.getFileId();   // 이게 아니라 지금 저장돼 있는 fileId를 가져와라
+                Posts posts = postService.getPost(postId);
+                fileId = posts.getFileId();
+                System.out.println("~~~ fileId : "+fileId);
+                // db에 저장된 파일을 삭제한다.
+                fileService.deleteFile(fileId);
+            }
+//            if(postDto.getFileId() != null){    // file_id 있음
+//                System.out.println("~~~ != null");
+//                fileId = postDto.getFileId();
+//                // db에 저장된 파일을 삭제한다.
+//                fileService.deleteFile(fileId);
+//            }
+            System.out.println("~~~ 파일 삭제후 다시 파일을 생성");
+
             String origFilename = files.getOriginalFilename();
-            // 이미지를 파일로 저장하기 위한 name을 만든다
+            // 이미지를 파일로 저장하기 위한 name을 만든다.
             String filename = new MD5Generator(origFilename).toString();
             /* 실행되는 위치의 'files' 폴더에 파일이 저장됩니다. */
             String savePath = System.getProperty("user.dir") + "\\files";
             /* 파일이 저장되는 폴더가 없으면 폴더를 생성합니다. */
-            if (!new File(savePath).exists()) {
-                try{
-                    new File(savePath).mkdir();
-                }
-                catch(Exception e){
-                    e.getStackTrace();
-                }
-            }
-            filePath = savePath + "\\" + filename;
-
-            // 파일 경로만 가져오는 것 이기 때문에 이거 안해도 될 것 같은데..
-            //files.transferTo(new File(filePath));
-
-            // 파일 저장할때 게시글을 저장한게 아니기 때문에 이건 저장 안해도 될듯하다
-            // ㅇㅇ 어차피 fileDto는 밑에서 saveFile(fileDto) 해주려고 만드는 애다
-//            ImageFileDto fileDto = new ImageFileDto();
-//            fileDto.setOrigFilename(origFilename);
-//            fileDto.setFileName(filename);
-//            fileDto.setFilePath(filePath);
-//            fileDto.setFileSize(files.getSize()); // 내가 추가함
-
-            // 다른 예제들은 fileUrl? 을 dto로 저장하기도 하던데..
-//            Long fileId = fileService.saveFile(fileDto);
-//            postDto.setFileId(fileId);
-//            postService.savePost(postDto);
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
-        return filePath;
-    }
-
-    // 근데 이게 어차피
-    /*@PostMapping("/posts/write2")   // 2번째는 PostDto에 file의 path 가 들어있다.
-    public Boolean createPost2(@RequestBody PostDto postDto){
-        try {
-            System.out.println("~~~ w2");
-            String origFilename = files.getOriginalFilename();
-            // 이미지를 파일로 저장하기 위한 name을 만든다.
-            String filename = new MD5Generator(origFilename).toString();
-            *//* 실행되는 위치의 'files' 폴더에 파일이 저장됩니다. *//*
-            String savePath = System.getProperty("user.dir") + "\\files";
-            *//* 파일이 저장되는 폴더가 없으면 폴더를 생성합니다. *//*
             if (!new File(savePath).exists()) {
                 try{
                     new File(savePath).mkdir();
@@ -159,34 +140,50 @@ public class PostController {
             fileDto.setFileSize(files.getSize()); // 내가 추가함
 
             // 다른 예제들은 fileUrl? 을 dto로 저장하기도 하던데..
-            Long fileId = fileService.saveFile(fileDto); // 이미지 파일을 저장한다.
-            postDto.setFileId(fileId);  // 저장한 이미지 파일의 아이디를 postDto에 담는다
-            postService.savePost(postDto);  // postDto를 저장한다.
+            Long newfileId = fileService.saveFile(fileDto); // 이미지 파일을 저장한다.
+            postDto.setFileId(newfileId);  // 저장한 이미지 파일의 아이디를 postDto의 fileId에 담는다
+
+            // 게시글 수정
+            postService.updatePost2(postId, postDto);
+
+            //postService.savePost(postDto);  // postDto를 저장한다.
         } catch(Exception e) {
             e.printStackTrace();
             return false;
         }
         //return "redirect:/";
         return true;
-    }*/
-
-
-    //  @AuthenticationPrincipal UserDetailsImpl userDetails 넣을까 말까
-    // 댓글은 댓글조회 url을 만들어서 불러주는게 맞는듯
-    @GetMapping("/posts/{postId}")
-    public Posts viewPost(@PathVariable Long postId){
-        return postService.viewPostInfo(postId);
-    }
-
-    // Long 으로 반환해서 뭐하려고
-    @PatchMapping("/posts/{postId}")
-    public Boolean updatePost(@PathVariable Long postId, @RequestBody PostRequestDto requestDto){
-        return postService.updatePost(postId, requestDto);
     }
 
     @DeleteMapping("/posts/{postId}")
     public Boolean deletePost(@PathVariable Long postId){
-        return postService.deletePostService(postId);
+
+        Long fileId;
+        try{
+            Posts posts = postService.getPost(postId);
+            fileId = posts.getFileId();
+            System.out.println("~~~ 삭제 fileId : "+fileId);
+            System.out.println("~~~ 삭제 postId : "+postId);
+            // db에 저장된 파일을 삭제한다.
+            fileService.deleteFile(fileId);
+            postService.deletePostService(postId);
+        } catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
+
+
+    // Long 으로 반환해서 뭐하려고
+//    @PatchMapping("/posts/{postId}")
+//    public Boolean updatePost(@PathVariable Long postId, @RequestBody PostRequestDto requestDto){
+//        return postService.updatePost(postId, requestDto);
+//    }
+
+//    @DeleteMapping("/posts/{postId}")
+//    public Boolean deletePost(@PathVariable Long postId){
+//        return postService.deletePostService(postId);
+//    }
 
 }

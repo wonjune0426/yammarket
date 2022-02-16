@@ -1,5 +1,6 @@
 package com.example.yammarket.model;
 
+import com.example.yammarket.dto.PostDto;
 import com.example.yammarket.dto.PostRequestDto;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,8 +26,9 @@ public class Posts extends TimeStamped {
     @Column(nullable = false)
     private String desc;
 
+    //@ManyToOne(cascade = CascadeType.REMOVE)
     @ManyToOne
-    @JoinColumn(name = "user_id",nullable = false)
+    @JoinColumn(name = "user_id",nullable = true) // nullable = false
     private Users users;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "posts")
@@ -37,20 +39,31 @@ public class Posts extends TimeStamped {
 
 //    @OneToMany(fetch = FetchType.LAZY, mappedBy = "posts")
 //    private List<ImageFiles> imageFiles;
-    @Column(nullable = true)
+    @Column(nullable = false)
     private Long fileId;
+
+//    @OneToOne
+//    @JoinColumn(name = "file_id")
+//    private Posts posts;
+
 
     // 게시글 생성 시 이용할 생성자
     public Posts(PostRequestDto requestDto){
-        System.out.println("~~~ title :"+requestDto.getTitle());
-        System.out.println("~~~ desc : "+requestDto.getDesc());
         this.title = requestDto.getTitle();
         this.desc = requestDto.getDesc();
+        this.fileId = requestDto.getFileId();
     }
 
     public void update(PostRequestDto requestDto){
         this.title = requestDto.getTitle();
         this.desc = requestDto.getDesc();
+        this.fileId = requestDto.getFileId();
+    }
+
+    public void update2(PostDto postDto){
+        this.title = postDto.getTitle();
+        this.desc = postDto.getDesc();
+        this.fileId = postDto.getFileId();
     }
 
     @Builder

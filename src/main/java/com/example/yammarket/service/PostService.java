@@ -22,6 +22,15 @@ public class PostService {
     }
 
     @Transactional
+    public Posts getPost(Long id){
+        Posts posts = postRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("~~~post의 id가 존재하지 않습니다")
+        );
+
+        return posts;
+    }
+
+    @Transactional
     public Posts viewPostInfo(Long postId){
         Posts posts = postRepository.findById(postId).orElseThrow(
                 () -> new NullPointerException("id가 존재하지 않습니다.")
@@ -45,13 +54,25 @@ public class PostService {
     }
 
     @Transactional
+    public Boolean updatePost2(Long id, PostDto postDto){
+        Posts posts = postRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
+        );
+        try {
+            posts.update2(postDto);
+        } catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    @Transactional
     public Boolean createPostInfo(PostRequestDto requestDto){
         Posts posts = new Posts(requestDto);
 
         try {
-            System.out.println("~~~ 1");
             postRepository.save(posts);
-            System.out.println("~~~ 2");
         } catch (Exception e){
             e.printStackTrace();
             return false;
@@ -75,13 +96,13 @@ public class PostService {
         return postRepository.save(postDto.toEntity()).getId();
     }
 
-    @Transactional
+    /*@Transactional
     public PostDto getPost(Long id){
         // 뒤에 .get() 안씀..
         Posts posts = postRepository.findById(id).get(); // null 처리 해줘야할 듯
-        /*Post post = postRepository.findById(id).orElseThrow(
+        *//*Post post = postRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("~~~post의 id가 존재하지 않습니다. 아마도")
-        );*/
+        );*//*
 
         PostDto postDto = PostDto.builder()
                 .userId(posts.getUsers().getUserId())
@@ -90,5 +111,5 @@ public class PostService {
                 .fileId(posts.getFileId())
                 .build();
         return postDto;
-    }
+    }*/
 }

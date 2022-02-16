@@ -15,6 +15,7 @@ public class ImageFiles {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     private Long id;
+//    @Column(name="file_id")
 
     /*@Column(nullable = false)
     private String imageName;
@@ -38,9 +39,9 @@ public class ImageFiles {
     @Column(nullable = false)
     private Long fileSize;
 
-    @ManyToOne
-    @JoinColumn(name = "post_id", nullable = false)
-    private Posts posts;
+//    @ManyToOne
+//    @JoinColumn(name = "post_id", nullable = false)
+//    private Posts posts;
 
     @Builder
     public ImageFiles(Long id, String origFilename, String fileName, String filePath, Long fileSize){
@@ -56,5 +57,6 @@ public class ImageFiles {
         this.fileName = fileDto.getFileName();
         this.filePath = fileDto.getFilePath();
         this.fileSize = fileDto.getFileSize();
+        System.out.println("~~~~~");
     }
 }
