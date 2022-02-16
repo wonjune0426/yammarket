@@ -14,7 +14,7 @@ public class HomeController {
 
     @GetMapping("/")
     public String ss(@AuthenticationPrincipal UserDetailsImpl userDetails){
-        return "ss";
+        return "aa";
     }
 
     @GetMapping("/test")
@@ -23,4 +23,5 @@ public class HomeController {
         testjson.setMsg("it worked");
         return testjson;
     }
+
 }

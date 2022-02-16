@@ -1,32 +1,25 @@
 package com.example.yammarket.model;
 
 import com.example.yammarket.dto.ImageFileDto;
+import lombok.AccessLevel;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@NoArgsConstructor
 @Getter
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 @Entity
-public class ImageFiles {
+@Table(name = "file")
+public class ImageFiles extends TimeStamped {
 
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "file_id")
     private Long id;
-//    @Column(name="file_id")
-
-    /*@Column(nullable = false)
-    private String imageName;
-
-    @Column(nullable = false)
-    private String imagePath;
-
-    @Column(nullable = false)
-    private String imageSize;
-     */
-
+  
     @Column(nullable = false)
     private String origFilename;
 
@@ -60,3 +53,4 @@ public class ImageFiles {
         System.out.println("~~~~~");
     }
 }
+

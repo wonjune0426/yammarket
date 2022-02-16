@@ -1,5 +1,6 @@
 package com.example.yammarket.model;
 
+
 import lombok.Getter;
 import lombok.Setter;
 

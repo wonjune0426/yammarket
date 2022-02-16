@@ -1,5 +1,6 @@
 package com.example.yammarket.dto;
 
+
 import com.example.yammarket.model.ImageFiles;
 import lombok.Builder;
 import lombok.Getter;
@@ -37,4 +38,5 @@ public class ImageFileDto {
         this.filePath = filePath;
         this.fileSize = fileSize;
     }
+
 }

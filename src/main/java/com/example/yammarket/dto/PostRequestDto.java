@@ -1,6 +1,9 @@
 package com.example.yammarket.dto;
 
 import lombok.Getter;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.*;
 
 @Getter
 public class PostRequestDto {

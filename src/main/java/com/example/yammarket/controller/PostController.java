@@ -10,6 +10,7 @@ import com.example.yammarket.service.ImageFileService;
 import com.example.yammarket.service.PostService;
 import com.example.yammarket.util.MD5Generator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,6 +22,7 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:3000") // 하나로 하려면 configuration 처럼
 @RequiredArgsConstructor
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 public class PostController {
 
     private final PostService postService;
@@ -35,6 +37,7 @@ public class PostController {
 
     // 일단 반환하는데 Boolean 형인데
     // user정보가 필요하면  @AuthenticationPrincipal UserDetailsImpl userDetails 를 사용하면 된다.
+
 //    @PostMapping("/posts/write0")
 //    public Boolean createPost(@RequestBody PostRequestDto requestDto){
 //        return postService.createPostInfo(requestDto);
@@ -79,7 +82,7 @@ public class PostController {
         }
         //return "redirect:/";
         return true;
-    }
+
 
 
     //  @AuthenticationPrincipal UserDetailsImpl userDetails 넣을까 말까
@@ -185,5 +188,6 @@ public class PostController {
 //    public Boolean deletePost(@PathVariable Long postId){
 //        return postService.deletePostService(postId);
 //    }
+
 
 }
