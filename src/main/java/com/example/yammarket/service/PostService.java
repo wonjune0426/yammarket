@@ -6,9 +6,7 @@ import com.example.yammarket.dto.PostRequestDto;
 import com.example.yammarket.model.ImageFiles;
 import com.example.yammarket.model.Posts;
 import com.example.yammarket.model.Users;
-import com.example.yammarket.repository.ImageFileRepository;
-import com.example.yammarket.repository.PostRepository;
-import com.example.yammarket.repository.UserRepository;
+import com.example.yammarket.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.apache.catalina.User;
 import org.springframework.stereotype.Service;
@@ -24,6 +22,8 @@ public class PostService {
 
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final BookmarkRepository bookmarkRepository;
+    private final CommentRepository commentRepository;
     //private final ImageFileRepository imageFileRepository;
     //private final ImageFileHandler imageFileHandler;
 
@@ -119,6 +119,8 @@ public class PostService {
     public Boolean deletePostService(Long postId){
         try{
             postRepository.deleteById(postId);
+            commentRepository.deleteByPostId(postId);
+            bookmarkRepository.deleteByPostId(postId);
         } catch (Exception e){
             e.printStackTrace();
             return false;
