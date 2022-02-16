@@ -81,6 +81,7 @@ public class PostController {
             // 일단 이름을 임의로 박음
             //postDto.setUserId("iamuser");
             postDto.setUserId(userDetails.getUserId());
+            postDto.setFilePath(filePath);
             postService.savePost(postDto);  // postDto를 저장한다.
         } catch (Exception e) {
             e.printStackTrace();
@@ -169,7 +170,7 @@ public class PostController {
             // 다른 예제들은 fileUrl? 을 dto로 저장하기도 하던데..
             Long newfileId = fileService.saveFile(fileDto); // 이미지 파일을 저장한다.
             postDto.setFileId(newfileId);  // 저장한 이미지 파일의 아이디를 postDto의 fileId에 담는다
-
+            postDto.setFilePath(filePath);
             // 게시글 수정
             postService.updatePost2(postId, postDto);
 

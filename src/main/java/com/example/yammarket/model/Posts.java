@@ -47,6 +47,9 @@ public class Posts extends TimeStamped {
     @Column(nullable = false)
     private Long fileId;
 
+    @Column(nullable = false)
+    private String filePath;
+
 //    @OneToOne
 //    @JoinColumn(name = "file_id")
 //    private Posts posts;
@@ -65,6 +68,8 @@ public class Posts extends TimeStamped {
         this.desc = postDto.getDesc();
         this.fileId = postDto.getFileId();
         this.userId = postDto.getUserId();
+        this.filePath = postDto.getFilePath();
+
     }
 
     public void update(PostRequestDto requestDto){
@@ -77,6 +82,7 @@ public class Posts extends TimeStamped {
         this.title = postDto.getTitle();
         this.desc = postDto.getDesc();
         this.fileId = postDto.getFileId();
+        this.filePath = postDto.getFilePath();
     }
 
     @Builder

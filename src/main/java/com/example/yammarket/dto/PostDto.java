@@ -13,6 +13,7 @@ public class PostDto {
     private String title;
     private String desc;
     private Long fileId;
+    private String filePath;
 
     /*public Posts toEntity(){
         Posts build = Posts.builder()
