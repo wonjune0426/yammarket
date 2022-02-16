@@ -34,6 +34,8 @@ public class CommentService {
     public boolean commentUpdate(Long commentId, String comment, UserDetailsImpl userDetails) {
         Comments comments= commentRepository.findById(commentId).orElseThrow(
                 ()->new NullPointerException("수정할 댓글이 없습니다."));
+        System.out.println("~~~ 댓글 수정 comments.getUsers().getUserId() : "+comments.getUsers().getUserId());
+        System.out.println("~~~ 댓글 수정 comments.getUsers() : "+comments.getUsers());
         if(comments.getUsers().equals(userDetails.getUsers())) {
             comments.setComment(comment);
             return true;
@@ -46,6 +48,9 @@ public class CommentService {
     public boolean deleteComment(Long commentId,UserDetailsImpl userDetails) {
         Comments comments= commentRepository.findById(commentId).orElseThrow(
                 ()->new NullPointerException("삭제할 댓글이 없습니다."));
+        System.out.println("~~~ 댓글 삭제 comments.getUsers().getUserId() : "+comments.getUsers().getUserId());
+        System.out.println("~~~ 댓글 삭제 comments.getUsers() : "+comments.getUsers());
+        
         if(comments.getUsers().equals(userDetails.getUsers())){
             commentRepository.deleteById(comments.getId());
             return true;

@@ -6,6 +6,7 @@ import com.example.yammarket.dto.PostRequestDto;
 import com.example.yammarket.model.ImageFiles;
 import com.example.yammarket.model.Posts;
 import com.example.yammarket.repository.ImageFileRepository;
+import com.example.yammarket.security.UserDetailsImpl;
 import com.example.yammarket.service.ImageFileService;
 import com.example.yammarket.service.PostService;
 import com.example.yammarket.util.MD5Generator;
@@ -42,9 +43,12 @@ public class PostController {
 //        return postService.createPostInfo(requestDto);
 //    }
 
+    // 게시글 생성
     @PostMapping("/posts/write1")    // "file"은 프론트의 input name="file" 인듯
     public Boolean createPost(@RequestPart(value = "file")MultipartFile files,
-                              @RequestPart(value = "post") PostDto postDto) {
+                              @RequestPart(value = "post") PostDto postDto,
+                              @AuthenticationPrincipal UserDetailsImpl userDetails
+                              ) {
         //public Boolean createPost(@RequestParam("file")MultipartFile files, @RequestBody PostDto postDto){
         try {
             System.out.println("~~~ 1");
@@ -73,6 +77,10 @@ public class PostController {
             // 다른 예제들은 fileUrl? 을 dto로 저장하기도 하던데..
             Long fileId = fileService.saveFile(fileDto); // 이미지 파일을 저장한다.
             postDto.setFileId(fileId);  // 저장한 이미지 파일의 아이디를 postDto에 담는다
+
+            // 일단 이름을 임의로 박음
+            //postDto.setUserId("iamuser");
+            postDto.setUserId(userDetails.getUserId());
             postService.savePost(postDto);  // postDto를 저장한다.
         } catch (Exception e) {
             e.printStackTrace();
@@ -89,12 +97,31 @@ public class PostController {
         return postService.viewPostInfo(postId);
     }
 
-    // 수정
+    // 게시글 수정
     // Post에 fileId도 있으니까 그거 이용하자
     @PatchMapping("/posts/{postId}")
     public Boolean updatePost(@PathVariable Long postId,
-                              @RequestPart(value = "file")MultipartFile files,
-                              @RequestPart(value = "post") PostDto postDto){
+                              @RequestPart(value = "file") MultipartFile files,
+                              @RequestPart(value = "post") PostDto postDto,
+                              @AuthenticationPrincipal UserDetailsImpl userDetails
+    ){
+
+        // 게시글의 userId랑 같은지를 체크해야한다.
+        Posts posts = postService.getPost(postId);
+        String postUserId = posts.getUserId();
+        System.out.println("~~~ 업데이트 postUserId : " + postUserId);
+        System.out.println("~~~ 업데이트 userDetails.getUserId() : "+ userDetails.getUserId());
+
+        // 유저 아이디가 다르면 false 반환
+        if( !postUserId.equals(userDetails.getUserId()) ){
+            return false;
+        }
+        // 유저 아이디가 다르면 false 반환
+//        if( !postService.equalUserId(userDetails.getUserId()) )
+//        {
+//            System.out.println("~~~ false 를 반환해");
+//            return false;
+//        }
 
         Long fileId;
         try {
@@ -102,7 +129,7 @@ public class PostController {
             if( !files.isEmpty() ){
                 System.out.println("~~~ notEmpty");
                 //fileId = postDto.getFileId();   // 이게 아니라 지금 저장돼 있는 fileId를 가져와라
-                Posts posts = postService.getPost(postId);
+                //Posts posts = postService.getPost(postId); - 위에서 사용함
                 fileId = posts.getFileId();
                 System.out.println("~~~ fileId : "+fileId);
                 // db에 저장된 파일을 삭제한다.
@@ -155,12 +182,24 @@ public class PostController {
         return true;
     }
 
+    // 게시글 삭제
     @DeleteMapping("/posts/{postId}")
-    public Boolean deletePost(@PathVariable Long postId){
+    public Boolean deletePost(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails){
+
+        // 게시글의 userId랑 같은지를 체크해야한다.
+        Posts posts = postService.getPost(postId);
+        String postUserId = posts.getUserId();
+        System.out.println("~~~ 삭제 postUserId : " + postUserId);
+        System.out.println("~~~ userDetails.getUserId() : "+ userDetails.getUserId());
+
+        // 유저 아이디가 다르면 false 반환
+        if( !postUserId.equals(userDetails.getUserId()) ){
+            return false;
+        }
 
         Long fileId;
         try{
-            Posts posts = postService.getPost(postId);
+            //Posts posts = postService.getPost(postId); - 위에서 사용함
             fileId = posts.getFileId();
             System.out.println("~~~ 삭제 fileId : "+fileId);
             System.out.println("~~~ 삭제 postId : "+postId);
@@ -185,6 +224,5 @@ public class PostController {
 //    public Boolean deletePost(@PathVariable Long postId){
 //        return postService.deletePostService(postId);
 //    }
-
 
 }

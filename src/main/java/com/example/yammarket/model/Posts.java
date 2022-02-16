@@ -30,9 +30,11 @@ public class Posts extends TimeStamped {
     private String desc;
 
     //@ManyToOne(cascade = CascadeType.REMOVE)
-    @ManyToOne
-    @JoinColumn(name = "user_id",nullable = true) // nullable = false
-    private Users users;
+//    @ManyToOne
+//    @JoinColumn(name = "user_id",nullable = true) // nullable = false
+//    private Users users;
+    @Column(nullable = false)
+    private String userId;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "posts")
     private List<Bookmarks> bookmarks;
@@ -62,6 +64,7 @@ public class Posts extends TimeStamped {
         this.title = postDto.getTitle();
         this.desc = postDto.getDesc();
         this.fileId = postDto.getFileId();
+        this.userId = postDto.getUserId();
     }
 
     public void update(PostRequestDto requestDto){
@@ -83,5 +86,5 @@ public class Posts extends TimeStamped {
         this.desc = desc;
         this.fileId = fileId;
     }
-    
+
 }

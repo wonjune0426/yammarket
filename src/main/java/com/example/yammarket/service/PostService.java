@@ -5,20 +5,25 @@ import com.example.yammarket.dto.PostDto;
 import com.example.yammarket.dto.PostRequestDto;
 import com.example.yammarket.model.ImageFiles;
 import com.example.yammarket.model.Posts;
+import com.example.yammarket.model.Users;
 import com.example.yammarket.repository.ImageFileRepository;
 import com.example.yammarket.repository.PostRepository;
+import com.example.yammarket.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.User;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
 public class PostService {
 
     private final PostRepository postRepository;
+    private final UserRepository userRepository;
     //private final ImageFileRepository imageFileRepository;
     //private final ImageFileHandler imageFileHandler;
 
@@ -60,7 +65,6 @@ public class PostService {
     }
 
     @Transactional
-
     public Boolean updatePost2(Long id, PostDto postDto){
         Posts posts = postRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
@@ -73,6 +77,20 @@ public class PostService {
         }
         return true;
     }
+
+    // 로그인한 사용자와 게시물을 작성한 사용자가 같은지 확인
+    public Boolean equalUserId(String userId){
+        Optional<Users> user = userRepository.findByUserId(userId);
+        if(user.isPresent())
+            return true;
+
+        Users users = userRepository.findByUserId(userId).orElseThrow(
+                ()-> new IllegalArgumentException("유저 아이디가 다릅니다.")
+        );
+
+        return false;
+    }
+
 
     @Transactional
     public Boolean createPostInfo(PostRequestDto requestDto){
