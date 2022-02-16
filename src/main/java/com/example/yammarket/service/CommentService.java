@@ -34,16 +34,24 @@ public class CommentService {
     public boolean commentUpdate(Long commentId, String comment, UserDetailsImpl userDetails) {
         Comments comments= commentRepository.findById(commentId).orElseThrow(
                 ()->new NullPointerException("수정할 댓글이 없습니다."));
-        comments.setComment(comment);
-        return true;
+        if(comments.getUsers().equals(userDetails.getUsers())) {
+            comments.setComment(comment);
+            return true;
+        }else{
+            return false;
+        }
     }
 
     @Transactional
-    public boolean deleteComment(Long commentId) {
+    public boolean deleteComment(Long commentId,UserDetailsImpl userDetails) {
         Comments comments= commentRepository.findById(commentId).orElseThrow(
                 ()->new NullPointerException("삭제할 댓글이 없습니다."));
-        commentRepository.deleteById(comments.getId());
-        return true;
+        if(comments.getUsers().equals(userDetails.getUsers())){
+            commentRepository.deleteById(comments.getId());
+            return true;
+        }else{
+            return false;
+        }
     }
 
     @Transactional

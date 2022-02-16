@@ -46,8 +46,9 @@ public class CommentController {
 
     //댓글 삭제
     @DeleteMapping("/comments/{commentId}")
-    public boolean commentDelete(@PathVariable Long commentId){
-        return commentService.deleteComment(commentId);
+    public boolean commentDelete(@PathVariable Long commentId,
+                                 @AuthenticationPrincipal UserDetailsImpl userDetails){
+        return commentService.deleteComment(commentId,userDetails);
     }
 
 }
