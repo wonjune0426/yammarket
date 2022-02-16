@@ -24,12 +24,9 @@ spring:
         ansi:
             enabled: always
     servlet:
-        multipart:
-            maxFileSize: 10MB
-    h2:
-        console:
-            enabled: true
-
+      multipart:
+          max-file-size: 10MB
+          max-request-size: 10MB
 # ???? ??? ?? trace
 logging:
     level:

@@ -48,6 +48,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 // CSRF protection 을 비활성화
+
         http.httpBasic();
         http
                 .cors()
@@ -70,6 +71,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/").permitAll()
                 .anyRequest()
                 .authenticated()
+
                 .and()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()//jwtAuthenticationEntryPoint).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()

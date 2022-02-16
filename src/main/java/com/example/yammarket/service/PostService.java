@@ -1,6 +1,6 @@
 package com.example.yammarket.service;
 
-//import com.example.yammarket.Handler.ImageFileHandler;
+import com.example.yammarket.dto.PostDto;
 import com.example.yammarket.dto.PostRequestDto;
 import com.example.yammarket.model.ImageFiles;
 import com.example.yammarket.model.Posts;
@@ -27,6 +27,15 @@ public class PostService {
     }
 
     @Transactional
+    public Posts getPost(Long id){
+        Posts posts = postRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("~~~post의 id가 존재하지 않습니다")
+        );
+
+        return posts;
+    }
+
+    @Transactional
     public Posts viewPostInfo(Long postId){
         Posts posts = postRepository.findById(postId).orElseThrow(
                 () -> new NullPointerException("id가 존재하지 않습니다.")
@@ -50,22 +59,25 @@ public class PostService {
     }
 
     @Transactional
-    public Boolean createPostInfo(PostRequestDto requestDto, List<MultipartFile> imageFiles) throws Exception {
+    public Boolean updatePost2(Long id, PostDto postDto){
+        Posts posts = postRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
+        );
+        try {
+            posts.update2(postDto);
+        } catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    @Transactional
+    public Boolean createPostInfo(PostRequestDto requestDto){
         Posts posts = new Posts(requestDto);
 
-        //List<ImageFiles> imageFilesList = imageFileHandler.parseFileInfo(imageFiles);
-
-        // 파일이 존재할 때에만 처리
-//        if(!imageFilesList.isEmpty()){
-//            for(ImageFiles imageFiles_list : imageFilesList)
-//                // 파일을 DB에 저장
-//                posts.addImageFiles(imageFileRepository.save(imageFiles_list));
-//        }
-
         try {
-            System.out.println("~~~ 1");
             postRepository.save(posts);
-            System.out.println("~~~ 2");
         } catch (Exception e){
             e.printStackTrace();
             return false;
@@ -83,4 +95,26 @@ public class PostService {
         }
         return true;
     }
+
+    @Transactional
+    public Long savePost(PostDto postDto) {
+        return postRepository.save(postDto.toEntity()).getId();
+    }
+
+    /*@Transactional
+    public PostDto getPost(Long id){
+        // 뒤에 .get() 안씀..
+        Posts posts = postRepository.findById(id).get(); // null 처리 해줘야할 듯
+        *//*Post post = postRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("~~~post의 id가 존재하지 않습니다. 아마도")
+        );*//*
+
+        PostDto postDto = PostDto.builder()
+                .userId(posts.getUsers().getUserId())
+                .title(posts.getTitle())
+                .desc(posts.getDesc())
+                .fileId(posts.getFileId())
+                .build();
+        return postDto;
+    }*/
 }
