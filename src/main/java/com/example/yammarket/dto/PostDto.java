@@ -14,7 +14,7 @@ public class PostDto {
     private String desc;
     private Long fileId;
 
-    public Posts toEntity(){
+    /*public Posts toEntity(){
         Posts build = Posts.builder()
                 .user_id(userId)
                 .title(title)
@@ -30,5 +30,5 @@ public class PostDto {
         this.title = title;
         this.desc = desc;
         this.fileId = fileId;
-    }
+    }*/
 }
