@@ -1,4 +1,5 @@
 package com.example.yammarket.service;
+import com.example.yammarket.dto.CheckIdRequestDto;
 import com.example.yammarket.dto.SignupRequestDto;
 import com.example.yammarket.model.Users;
 import com.example.yammarket.repository.UserRepository;
@@ -9,12 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -56,5 +52,11 @@ public class UserService {
         return authentication.isAuthenticated();
     }
 
+    public Boolean checkId(CheckIdRequestDto requestDto) {
+        if(userRepository.findByUserId(requestDto.getUserId()).isPresent()){
+            return true;
+        }
+        return false;
+    }
 
 }

@@ -9,7 +9,7 @@ public class Token {
     @AllArgsConstructor
     public static final class Request {
         private String userId;
-        private String secret;
+        private String password;
     }
 
     @Data
