@@ -20,11 +20,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetailsServiceImpl(UserRepository usersRepository) {
         this.usersRepository = usersRepository;
     }
+
     public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
         Users users = usersRepository.findByUserId(userId)
                 .orElseThrow(() -> new UsernameNotFoundException("Can't find " + userId));
-
-
         return new UserDetailsImpl(users);
     }
 }

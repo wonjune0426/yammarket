@@ -1,52 +1,62 @@
 package com.example.yammarket.model;
 
-import lombok.AccessLevel;
+import com.example.yammarket.dto.ImageFileDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+@NoArgsConstructor
 @Getter
-@NoArgsConstructor(access = AccessLevel.PUBLIC)
 @Entity
-@Table(name = "file")
-public class ImageFiles extends TimeStamped {
+public class ImageFiles {
 
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "file_id")
     private Long id;
+//    @Column(name="file_id")
 
-    @ManyToOne
-    @JoinColumn(name = "post_id")
-    private Posts posts;
-
-    @Column(nullable = false)
-    private String imageName;  // 파일 원본명
+    /*@Column(nullable = false)
+    private String imageName;
 
     @Column(nullable = false)
-    private String imagePath;  // 파일 저장 경로
+    private String imagePath;
 
     @Column(nullable = false)
-    private Long imageSize;
+    private String imageSize;
+     */
 
+    @Column(nullable = false)
+    private String origFilename;
 
+    @Column(nullable = false)
+    private String fileName;
+
+    @Column(nullable = false)
+    private String filePath;
+
+    @Column(nullable = false)
+    private Long fileSize;
+
+//    @ManyToOne
+//    @JoinColumn(name = "post_id", nullable = false)
+//    private Posts posts;
 
     @Builder
-    public ImageFiles(String imageName, String imagePath, Long imageSize){
-        this.imageName = imageName;
-        this.imagePath = imagePath;
-        this.imageSize = imageSize;
+    public ImageFiles(Long id, String origFilename, String fileName, String filePath, Long fileSize){
+        this.id = id;
+        this.origFilename = origFilename;
+        this.fileName = fileName;
+        this.filePath = filePath;
+        this.fileSize = fileSize;
     }
 
-    // post 정보 저장
-    public void setPosts(Posts posts){
-        this.posts = posts;
-
-        // 게시글에 현재 파일이 존재하지 않는다면
-        if(!posts.getImageFiles().contains(this))
-            // 파일 추가
-            posts.getImageFiles().add(this);
+    public ImageFiles(ImageFileDto fileDto){
+        this.origFilename = fileDto.getOrigFilename();
+        this.fileName = fileDto.getFileName();
+        this.filePath = fileDto.getFilePath();
+        this.fileSize = fileDto.getFileSize();
+        System.out.println("~~~~~");
     }
 }

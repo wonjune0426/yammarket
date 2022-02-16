@@ -1,6 +1,5 @@
 package com.example.yammarket.model;
 
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,11 +9,11 @@ public class Test {
     private String msg;
 
 
-//    @Override
-//    public String toString() {
-//        return "Test{" +
-//                "msg='" + msg + '\'' +
-//                '}';
-//    }
+    @Override
+    public String toString() {
+        return "Test{" +
+                "msg='" + msg + '\'' +
+                '}';
+    }
 
 }

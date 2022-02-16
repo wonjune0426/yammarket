@@ -5,11 +5,15 @@ import com.example.yammarket.model.Posts;
 import com.example.yammarket.model.Users;
 import com.example.yammarket.repository.BookmarkRepository;
 import com.example.yammarket.repository.PostRepository;
+import com.example.yammarket.repository.UserRepository;
 import com.example.yammarket.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
+
+
+import java.util.ArrayList;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,6 +24,7 @@ public class BookmarkService {
 
     private final BookmarkRepository bookmarkRepository;
     private final PostRepository postRepository;
+    private final UserRepository userRepository;
 
     public List<Posts> getBookmarks(UserDetailsImpl userDetails) {
         List<Bookmarks> bookmarks = bookmarkRepository.findAll();
