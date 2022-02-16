@@ -35,7 +35,7 @@ public class BookmarkService {
 
         //반복문으로 로그인할 유저와 북마크 유저가 같으면 List에 add
         for(Bookmarks bookmarks:bookmarkList){
-            if(bookmarks.getUsers().equals(userDetails.getUsers())){
+            if(bookmarks.getUserId().equals(userDetails.getUserId())){
                 postidList.add(bookmarks.getPosts().getId());
             }
         }
@@ -56,8 +56,8 @@ public class BookmarkService {
                                      @AuthenticationPrincipal UserDetailsImpl userDetails) {
         Posts posts = postRepository.findById(postId).orElseThrow(IllegalAccessError::new);
 
-        Users users = userDetails.getUsers();
-        Bookmarks bookmarks = new Bookmarks(users, posts);
+        String userId = userDetails.getUsers().getUserId();
+        Bookmarks bookmarks = new Bookmarks(userId, posts);
         bookmarkRepository.save(bookmarks);
         return true;
     }
@@ -65,8 +65,8 @@ public class BookmarkService {
     public boolean deleteBookmarks(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
         Optional<Bookmarks> bookmarks = bookmarkRepository.findById(id);
-        Users bookmarkUserId = bookmarks.get().getUsers();
-        Users userId = userDetails.getUsers();
+        String bookmarkUserId = bookmarks.get().getUserId();
+        String userId = userDetails.getUsers().getUserId();
 
         boolean result;
         if (bookmarkUserId== userId) {

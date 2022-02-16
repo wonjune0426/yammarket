@@ -17,16 +17,19 @@ public class Bookmarks {
     @Id
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id",nullable = false)
-    private Users users;
+//    @ManyToOne
+//    @JoinColumn(name = "user_id",nullable = false)
+//    private Users users;
+
+    @Column(nullable = false)
+    private String userId;
 
     @ManyToOne
     @JoinColumn(name = "post_id",nullable = true)
     private Posts posts;
 
-    public Bookmarks(Users users, Posts posts) {
-        this.users=users;
+    public Bookmarks(String userId, Posts posts) {
+        this.userId=userId;
         this.posts=posts;
     }
 

@@ -12,6 +12,6 @@ import javax.persistence.*;
 public class BookmarkRequestDto {
 
     private Long id;
-    private Users users;
+    private String userId;
     private Posts posts;
 }
