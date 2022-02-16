@@ -59,6 +59,12 @@ public class Posts extends TimeStamped {
         this.fileId = requestDto.getFileId();
     }
 
+    public Posts(PostDto postDto){
+        this.title = postDto.getTitle();
+        this.desc = postDto.getDesc();
+        this.fileId = postDto.getFileId();
+    }
+
     public void update(PostRequestDto requestDto){
         this.title = requestDto.getTitle();
         this.desc = requestDto.getDesc();
@@ -77,14 +83,5 @@ public class Posts extends TimeStamped {
         this.title = title;
         this.desc = desc;
         this.fileId = fileId;
-    }
-
-    public void addImageFiles(ImageFiles imageFiles) {
-        this.imageFiles.add(imageFiles);
-
-        // 게시글에 파일이 저장되어있지 않은 경우
-        if(imageFiles.getPosts() != this)
-            // 파일 저장
-            imageFiles.setPosts(this);
     }
 }

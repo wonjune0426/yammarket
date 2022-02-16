@@ -16,9 +16,9 @@ import javax.persistence.*;
 public class ImageFiles extends TimeStamped {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "file_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    // @Column(name = "file_id")
   
     @Column(nullable = false)
     private String origFilename;

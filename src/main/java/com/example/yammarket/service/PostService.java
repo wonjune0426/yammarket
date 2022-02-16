@@ -110,7 +110,9 @@ public class PostService {
 
     @Transactional
     public Long savePost(PostDto postDto) {
-        return postRepository.save(postDto.toEntity()).getId();
+        Posts posts = new Posts(postDto);
+        return postRepository.save(posts).getId();
+        //return postRepository.save(postDto.toEntity()).getId();
     }
 
     /*@Transactional

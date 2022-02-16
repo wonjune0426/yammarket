@@ -19,7 +19,6 @@ import org.springframework.web.servlet.ModelAndView;
 import java.io.File;
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:3000") // 하나로 하려면 configuration 처럼
 @RequiredArgsConstructor
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -45,21 +44,20 @@ public class PostController {
 
     @PostMapping("/posts/write1")    // "file"은 프론트의 input name="file" 인듯
     public Boolean createPost(@RequestPart(value = "file")MultipartFile files,
-                              @RequestPart(value = "post") PostDto postDto){
-    //public Boolean createPost(@RequestParam("file")MultipartFile files, @RequestBody PostDto postDto){
+                              @RequestPart(value = "post") PostDto postDto) {
+        //public Boolean createPost(@RequestParam("file")MultipartFile files, @RequestBody PostDto postDto){
         try {
             System.out.println("~~~ 1");
             String origFilename = files.getOriginalFilename();
-                        // 이미지를 파일로 저장하기 위한 name을 만든다.
+            // 이미지를 파일로 저장하기 위한 name을 만든다.
             String filename = new MD5Generator(origFilename).toString();
             /* 실행되는 위치의 'files' 폴더에 파일이 저장됩니다. */
             String savePath = System.getProperty("user.dir") + "\\files";
             /* 파일이 저장되는 폴더가 없으면 폴더를 생성합니다. */
             if (!new File(savePath).exists()) {
-                try{
+                try {
                     new File(savePath).mkdir();
-                }
-                catch(Exception e){
+                } catch (Exception e) {
                     e.getStackTrace();
                 }
             }
@@ -76,14 +74,13 @@ public class PostController {
             Long fileId = fileService.saveFile(fileDto); // 이미지 파일을 저장한다.
             postDto.setFileId(fileId);  // 저장한 이미지 파일의 아이디를 postDto에 담는다
             postService.savePost(postDto);  // postDto를 저장한다.
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
         //return "redirect:/";
         return true;
-
-
+    }
 
     //  @AuthenticationPrincipal UserDetailsImpl userDetails 넣을까 말까
     // 댓글은 댓글조회 url을 만들어서 불러주는게 맞는듯
