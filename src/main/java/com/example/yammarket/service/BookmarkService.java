@@ -62,19 +62,26 @@ public class BookmarkService {
         return true;
     }
 
-    public boolean deleteBookmarks(@PathVariable Long id, Users users) {
+    public boolean deleteBookmarks(@PathVariable Long postId, Users users) {
 
-        Bookmarks bookmarks = bookmarkRepository.findByPostId(id);
-        String bookmarkUserId = bookmarks.getUserId();
+        List<Bookmarks> bookmarksList= bookmarkRepository.findAllByPostId(postId);
+//        String bookmarkUserId = bookmarks.getUserId();
         String userId = users.getUserId();
-
-
-        if (bookmarkUserId.equals(userId)) {
-            bookmarkRepository.deleteById(id);
-            return true;
-        } else {
-            return false;
+        for(Bookmarks bookmarks:bookmarksList){
+            if(bookmarks.getUserId().equals(userId)){
+                bookmarkRepository.deleteById(bookmarks.getId());
+                return true;
+            }
         }
+        return false;
+//
+//
+//        if (bookmarkUserId.equals(userId)) {
+//            bookmarkRepository.deleteById(id);
+//            return true;
+//        } else {
+//            return false;
+//        }
 
     }
 }

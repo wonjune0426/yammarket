@@ -65,6 +65,7 @@ public class PostController {
             String filename = new MD5Generator(origFilename).toString();
             /* 실행되는 위치의 'files' 폴더에 파일이 저장됩니다. */
             String savePath = "files";
+//            String savePath = System.getProperty("user.dir") + "\\files";
             /* 파일이 저장되는 폴더가 없으면 폴더를 생성합니다. */
             if (!new File(savePath).exists()) {
                 try {
@@ -73,6 +74,7 @@ public class PostController {
                     e.getStackTrace();
                 }
             }
+//            String filePath = savePath + "\\" + filename; files.transferTo(new File(filePath));
             Path filePath = Paths.get("/home/ubuntu/", savePath, "/" , filename);
             files.transferTo(new File(String.valueOf(filePath)));
 

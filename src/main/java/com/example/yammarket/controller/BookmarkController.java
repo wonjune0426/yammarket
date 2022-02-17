@@ -46,7 +46,7 @@ public class BookmarkController {
         return bookmarkService.registerBookmarks(postId, users);
     }
 
-    @DeleteMapping("/bookmarks/{bookmarkId}")
+    @DeleteMapping("/bookmarks/{postId}")
     public boolean deleteBookmarks(@PathVariable Long postId,
 //                                   @AuthenticationPrincipal UserDetailsImpl userDetails
                                    HttpServletRequest request
