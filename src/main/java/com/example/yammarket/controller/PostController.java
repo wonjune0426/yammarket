@@ -208,16 +208,4 @@ public class PostController {
         return true;
     }
 
-
-    // Long 으로 반환해서 뭐하려고
-//    @PatchMapping("/posts/{postId}")
-//    public Boolean updatePost(@PathVariable Long postId, @RequestBody PostRequestDto requestDto){
-//        return postService.updatePost(postId, requestDto);
-//    }
-
-//    @DeleteMapping("/posts/{postId}")
-//    public Boolean deletePost(@PathVariable Long postId){
-//        return postService.deletePostService(postId);
-//    }
-
 }
