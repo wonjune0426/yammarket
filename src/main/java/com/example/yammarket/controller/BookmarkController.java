@@ -47,12 +47,12 @@ public class BookmarkController {
     }
 
     @DeleteMapping("/bookmarks/{bookmarkId}")
-    public boolean deleteBookmarks(@PathVariable Long bookmarkId,
+    public boolean deleteBookmarks(@PathVariable Long postId,
 //                                   @AuthenticationPrincipal UserDetailsImpl userDetails
                                    HttpServletRequest request
     ) throws Exception {
         TokenUser tokenUser=new TokenUser(userRepository);
         Users users=tokenUser.getUser(request);
-        return bookmarkService.deleteBookmarks(bookmarkId,users);
+        return bookmarkService.deleteBookmarks(postId,users);
     }
 }
