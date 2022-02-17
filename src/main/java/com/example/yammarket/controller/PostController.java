@@ -5,7 +5,11 @@ import com.example.yammarket.dto.PostDto;
 import com.example.yammarket.dto.PostRequestDto;
 import com.example.yammarket.model.ImageFiles;
 import com.example.yammarket.model.Posts;
+import com.example.yammarket.model.Token;
+import com.example.yammarket.model.Users;
 import com.example.yammarket.repository.ImageFileRepository;
+import com.example.yammarket.repository.UserRepository;
+import com.example.yammarket.security.TokenUser;
 import com.example.yammarket.security.UserDetailsImpl;
 import com.example.yammarket.service.ImageFileService;
 import com.example.yammarket.service.PostService;
@@ -17,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.util.List;
 
@@ -27,6 +32,7 @@ public class PostController {
 
     private final PostService postService;
     private final ImageFileService fileService;
+    private final UserRepository userRepository;
 
     // 처음에는 그냥 메인페이지만 보여주는게 맞고
     // 메인페이지("/")로 가서 post의 list를 호출을 해주는게 맞다
@@ -47,7 +53,8 @@ public class PostController {
     @PostMapping("/posts/write")    // "file"은 프론트의 input name="file" 인듯
     public Boolean createPost(@RequestPart(value = "file")MultipartFile files,
                               @RequestPart(value = "post") PostDto postDto,
-                              @AuthenticationPrincipal UserDetailsImpl userDetails
+//                              @AuthenticationPrincipal UserDetailsImpl userDetails
+                              HttpServletRequest request
                               ) {
         //public Boolean createPost(@RequestParam("file")MultipartFile files, @RequestBody PostDto postDto){
         try {
@@ -80,7 +87,9 @@ public class PostController {
 
             // 일단 이름을 임의로 박음
             //postDto.setUserId("iamuser");
-            postDto.setUserId(userDetails.getUserId());
+            TokenUser tokenUser=new TokenUser(userRepository);
+            Users users=tokenUser.getUser(request);
+            postDto.setUserId(users.getUserId());
             postDto.setFilePath(filePath);
             postService.savePost(postDto);  // postDto를 저장한다.
         } catch (Exception e) {

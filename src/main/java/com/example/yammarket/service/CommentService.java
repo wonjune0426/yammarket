@@ -36,9 +36,6 @@ public class CommentService {
     public boolean commentUpdate(Long commentId, CommentRequestDto commentRequestDto, UserDetailsImpl userDetails) {
         Comments comments= commentRepository.findById(commentId).orElseThrow(
                 ()->new NullPointerException("수정할 댓글이 없습니다."));
-        System.out.println(comments.getUserId());
-        System.out.println();
-        System.out.println(userDetails.getUsers().getUserId());
         if(comments.getUserId().equals(userDetails.getUsers().getUserId())) {
             comments.setComment(commentRequestDto.getComment());
             return true;

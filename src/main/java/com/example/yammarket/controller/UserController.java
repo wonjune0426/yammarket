@@ -8,6 +8,8 @@ import com.example.yammarket.security.*;
 
 import com.example.yammarket.model.Token;
 import com.example.yammarket.service.UserService;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -21,19 +23,15 @@ import javax.validation.Valid;
 
 @Slf4j
 @RestController
+@RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:3000")
 public class UserController{
 
     private JwtTokenProvider jwtTokenProvider;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private UserService userService;
+    private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final UserService userService;
 
 
     @PostMapping(
@@ -79,7 +77,7 @@ public class UserController{
     @PostMapping("/user/check")
     public Users checkUser(HttpServletRequest request) throws Exception {
         String token = request.getHeader("authorization");
-        String userId = jwtTokenProvider.getUserIdFromJWT(token);
+        String userId = JwtTokenProvider.getUserIdFromJWT(token);
         Users user = userRepository.findByUserId(userId).orElseThrow(()->new Exception("invalid Token"));
 
         return user;
