@@ -22,21 +22,20 @@ public class CommentService {
     private final PostRepository postsRepository;
 
     @Transactional
-    public boolean commentsWrite(Long postId, CommentRequestDto commentRequestDto, UserDetailsImpl userDetails) {
+    public boolean commentsWrite(Long postId, CommentRequestDto commentRequestDto, Users users) {
         Posts posts=postsRepository.findById(postId).orElseThrow(
                 ()-> new NullPointerException("댓글을 작성할 게시글이 없습니다."));
 
-        Users users=userDetails.getUsers();
         Comments comments=new Comments(commentRequestDto.getComment(),postId,users.getUserId());
         commentRepository.save(comments);
         return true;
     }
 
     @Transactional
-    public boolean commentUpdate(Long commentId, CommentRequestDto commentRequestDto, UserDetailsImpl userDetails) {
+    public boolean commentUpdate(Long commentId, CommentRequestDto commentRequestDto, Users users) {
         Comments comments= commentRepository.findById(commentId).orElseThrow(
                 ()->new NullPointerException("수정할 댓글이 없습니다."));
-        if(comments.getUserId().equals(userDetails.getUsers().getUserId())) {
+        if(comments.getUserId().equals(users.getUserId())) {
             comments.setComment(commentRequestDto.getComment());
             return true;
         }else{
@@ -45,10 +44,10 @@ public class CommentService {
     }
 
     @Transactional
-    public boolean deleteComment(Long commentId,UserDetailsImpl userDetails) {
+    public boolean deleteComment(Long commentId,Users users) {
         Comments comments= commentRepository.findById(commentId).orElseThrow(
                 ()->new NullPointerException("삭제할 댓글이 없습니다."));
-        if(comments.getUserId().equals(userDetails.getUsers().getUserId())){
+        if(comments.getUserId().equals(users.getUserId())){
             commentRepository.deleteById(comments.getId());
             return true;
         }else{

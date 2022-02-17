@@ -13,15 +13,8 @@ import org.springframework.web.bind.annotation.*;
 public class HomeController {
 
     @GetMapping("/")
-    public String ss(@AuthenticationPrincipal UserDetailsImpl userDetails){
-        return "aa";
-    }
-
-    @GetMapping("/test")
-    public Test test() {
-        Test testjson = new Test();
-        testjson.setMsg("it worked");
-        return testjson;
+    public boolean ss(){
+        return true;
     }
 
 }

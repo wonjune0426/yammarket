@@ -114,51 +114,33 @@ public class PostController {
     public Boolean updatePost(@PathVariable Long postId,
                               @RequestPart(value = "file") MultipartFile files,
                               @RequestPart(value = "post") PostDto postDto,
-                              @AuthenticationPrincipal UserDetailsImpl userDetails
-    ){
+//                              @AuthenticationPrincipal UserDetailsImpl userDetails
+                              HttpServletRequest request
+    ) throws Exception {
 
         // 게시글의 userId랑 같은지를 체크해야한다.
         Posts posts = postService.getPost(postId);
         String postUserId = posts.getUserId();
-        System.out.println("~~~ 업데이트 postUserId : " + postUserId);
-        System.out.println("~~~ 업데이트 userDetails.getUserId() : "+ userDetails.getUserId());
-
         // 유저 아이디가 다르면 false 반환
-        if( !postUserId.equals(userDetails.getUserId()) ){
+        TokenUser tokenUser=new TokenUser(userRepository);
+        Users users=tokenUser.getUser(request);
+        if( !postUserId.equals(users.getUserId()) ){
             return false;
         }
-        // 유저 아이디가 다르면 false 반환
-//        if( !postService.equalUserId(userDetails.getUserId()) )
-//        {
-//            System.out.println("~~~ false 를 반환해");
-//            return false;
-//        }
 
         Long fileId;
         try {
             // 일단 사진 필수라고 하자
             if( !files.isEmpty() ){
-                System.out.println("~~~ notEmpty");
-                //fileId = postDto.getFileId();   // 이게 아니라 지금 저장돼 있는 fileId를 가져와라
-                //Posts posts = postService.getPost(postId); - 위에서 사용함
                 fileId = posts.getFileId();
-                System.out.println("~~~ fileId : "+fileId);
-                // db에 저장된 파일을 삭제한다.
                 fileService.deleteFile(fileId);
             }
-//            if(postDto.getFileId() != null){    // file_id 있음
-//                System.out.println("~~~ != null");
-//                fileId = postDto.getFileId();
-//                // db에 저장된 파일을 삭제한다.
-//                fileService.deleteFile(fileId);
-//            }
-            System.out.println("~~~ 파일 삭제후 다시 파일을 생성");
 
             String origFilename = files.getOriginalFilename();
             // 이미지를 파일로 저장하기 위한 name을 만든다.
             String filename = new MD5Generator(origFilename).toString();
             /* 실행되는 위치의 'files' 폴더에 파일이 저장됩니다. */
-            String savePath = System.getProperty("user.dir") + "\\files";
+            String savePath = "files";
             /* 파일이 저장되는 폴더가 없으면 폴더를 생성합니다. */
             if (!new File(savePath).exists()) {
                 try{
@@ -168,19 +150,19 @@ public class PostController {
                     e.getStackTrace();
                 }
             }
-            String filePath = savePath + "\\" + filename;
-            files.transferTo(new File(filePath));
+            Path filePath = Paths.get("/home/ubuntu/", savePath, "/" , filename);
+            files.transferTo(new File(String.valueOf(filePath)));
 
             ImageFileDto fileDto = new ImageFileDto();
             fileDto.setOrigFilename(origFilename);
             fileDto.setFileName(filename);
-            fileDto.setFilePath(filePath);
+            fileDto.setFilePath(String.valueOf(filePath));
             fileDto.setFileSize(files.getSize()); // 내가 추가함
 
             // 다른 예제들은 fileUrl? 을 dto로 저장하기도 하던데..
             Long newfileId = fileService.saveFile(fileDto); // 이미지 파일을 저장한다.
             postDto.setFileId(newfileId);  // 저장한 이미지 파일의 아이디를 postDto의 fileId에 담는다
-            postDto.setFilePath(filePath);
+            postDto.setFilePath(String.valueOf(filePath));
             // 게시글 수정
             postService.updatePost2(postId, postDto);
 
@@ -195,16 +177,19 @@ public class PostController {
 
     // 게시글 삭제
     @DeleteMapping("/posts/{postId}")
-    public Boolean deletePost(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails){
+    public Boolean deletePost(@PathVariable Long postId,
+//                              @AuthenticationPrincipal UserDetailsImpl userDetails
+                              HttpServletRequest request
+    ) throws Exception {
 
         // 게시글의 userId랑 같은지를 체크해야한다.
         Posts posts = postService.getPost(postId);
         String postUserId = posts.getUserId();
-        System.out.println("~~~ 삭제 postUserId : " + postUserId);
-        System.out.println("~~~ userDetails.getUserId() : "+ userDetails.getUserId());
 
         // 유저 아이디가 다르면 false 반환
-        if( !postUserId.equals(userDetails.getUserId()) ){
+        TokenUser tokenUser=new TokenUser(userRepository);
+        Users users=tokenUser.getUser(request);
+        if( !postUserId.equals(users.getUserId()) ){
             return false;
         }
 
@@ -212,8 +197,6 @@ public class PostController {
         try{
             //Posts posts = postService.getPost(postId); - 위에서 사용함
             fileId = posts.getFileId();
-            System.out.println("~~~ 삭제 fileId : "+fileId);
-            System.out.println("~~~ 삭제 postId : "+postId);
             // db에 저장된 파일을 삭제한다.
             fileService.deleteFile(fileId);
             postService.deletePostService(postId);
