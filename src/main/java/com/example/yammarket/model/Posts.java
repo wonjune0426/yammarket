@@ -27,7 +27,7 @@ public class Posts extends TimeStamped {
     private String title;
 
     @Column(nullable = false)
-    private String desc;
+    private String postDesc;
 
     //@ManyToOne(cascade = CascadeType.REMOVE)
 //    @ManyToOne
@@ -59,13 +59,13 @@ public class Posts extends TimeStamped {
     @Builder
     public Posts(PostRequestDto requestDto){
         this.title = requestDto.getTitle();
-        this.desc = requestDto.getDesc();
+        this.postDesc = requestDto.getPostDesc();
         this.fileId = requestDto.getFileId();
     }
 
     public Posts(PostDto postDto){
         this.title = postDto.getTitle();
-        this.desc = postDto.getDesc();
+        this.postDesc = postDto.getPostDesc();
         this.fileId = postDto.getFileId();
         this.userId = postDto.getUserId();
         this.filePath = postDto.getFilePath();
@@ -74,22 +74,22 @@ public class Posts extends TimeStamped {
 
     public void update(PostRequestDto requestDto){
         this.title = requestDto.getTitle();
-        this.desc = requestDto.getDesc();
+        this.postDesc = requestDto.getPostDesc();
         this.fileId = requestDto.getFileId();
     }
 
     public void update2(PostDto postDto){
         this.title = postDto.getTitle();
-        this.desc = postDto.getDesc();
+        this.postDesc = postDto.getPostDesc();
         this.fileId = postDto.getFileId();
         this.filePath = postDto.getFilePath();
     }
 
     @Builder
-    public Posts(String user_id, String title, String desc, Long fileId){
+    public Posts(String user_id, String title, String postDesc, Long fileId){
         //this.users.getUserId() = user_id;
         this.title = title;
-        this.desc = desc;
+        this.postDesc = postDesc;
         this.fileId = fileId;
     }
 

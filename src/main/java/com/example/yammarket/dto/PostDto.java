@@ -11,7 +11,7 @@ public class PostDto {
     //private Long id;
     private String userId;
     private String title;
-    private String desc;
+    private String postDesc;
     private Long fileId;
     private String filePath;
 

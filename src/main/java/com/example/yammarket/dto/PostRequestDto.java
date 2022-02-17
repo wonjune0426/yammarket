@@ -9,6 +9,6 @@ import java.util.*;
 public class PostRequestDto {
     private String userId;
     private String title;
-    private String desc;
+    private String postDesc;
     private Long fileId;
 }
