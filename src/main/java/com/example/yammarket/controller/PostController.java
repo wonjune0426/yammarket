@@ -20,9 +20,10 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-
+import java.nio.file.Path;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.nio.file.Paths;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -63,7 +64,7 @@ public class PostController {
             // 이미지를 파일로 저장하기 위한 name을 만든다.
             String filename = new MD5Generator(origFilename).toString();
             /* 실행되는 위치의 'files' 폴더에 파일이 저장됩니다. */
-            String savePath = "/home/ubuntu/files";
+            String savePath = "files";
             /* 파일이 저장되는 폴더가 없으면 폴더를 생성합니다. */
             if (!new File(savePath).exists()) {
                 try {
@@ -72,13 +73,13 @@ public class PostController {
                     e.getStackTrace();
                 }
             }
-            String filePath = savePath + "\\" + filename;
-            files.transferTo(new File(filePath));
+            Path filePath = Paths.get("/home/ubuntu/", savePath, "/" , filename);
+            files.transferTo(new File(String.valueOf(filePath)));
 
             ImageFileDto fileDto = new ImageFileDto();
             fileDto.setOrigFilename(origFilename);
             fileDto.setFileName(filename);
-            fileDto.setFilePath(filePath);
+            fileDto.setFilePath(String.valueOf(filePath));
             fileDto.setFileSize(files.getSize()); // 내가 추가함
 
             // 다른 예제들은 fileUrl? 을 dto로 저장하기도 하던데..
@@ -90,7 +91,7 @@ public class PostController {
             TokenUser tokenUser=new TokenUser(userRepository);
             Users users=tokenUser.getUser(request);
             postDto.setUserId(users.getUserId());
-            postDto.setFilePath(filePath);
+            postDto.setFilePath(String.valueOf(filePath));
             postService.savePost(postDto);  // postDto를 저장한다.
         } catch (Exception e) {
             e.printStackTrace();
